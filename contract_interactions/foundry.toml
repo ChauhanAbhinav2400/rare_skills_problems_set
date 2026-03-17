@@ -1,12 +1,11 @@
 [profile.default]
 src = "src"
 out = "out"
-libs = ["lib"]
+libs = ["../lib", "lib"]
 
-<<<<<<< HEAD
 remappings = [
-  "@openzeppelin/=lib/openzeppelin-contracts/",
-  "solady/=lib/solady/src/"
+    "forge-std/=../lib/forge-std/src/",
+    "@openzeppelin/=../lib/openzeppelin-contracts/"
 ]
 
 

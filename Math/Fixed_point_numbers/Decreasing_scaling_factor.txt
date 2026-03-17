@@ -1,0 +1,63 @@
+==========================================================================================
+Decreasing the scaling factor
+========================================================================================
+Description
+Atomic Knowledge
+If we want to convert a fixed-point number from a larger scaling factor to a smaller one, we divide the fixed-point number by the ratio of the scaling factors.
+
+Note that in most cases, we must truncate the least significant digits of the fixed-point number.
+
+For example, if 12345 is the stored value of a fixed-point number with a scaling factor of 1000, then the represented value is 1.2345. If we reduce the scaling factor to 100, then the 5 will disappear, and we will end up with 1.234.
+
+The developer will have to decide if losing this information is consequential or not.
+
+You will see this happen in codebases where functions do math with very high scaling factors to maximize precision, but the final result doesn't need to have a large scaling factor, so the fixed-point number is scaled down again.
+
+Example:
+
+A fixed-point number has a scaling factor of 1e18. We want to reduce the scaling factor to 1e6. What do we divide it by?
+
+Answer:
+
+1e12.
+
+1e18 / 1e6 = 1e12
+========================================================================================
+
+Question 1
+A fixed-point number has a scaling factor of 1e27. We want to reduce the scaling factor to 1e8. What do we divide it by?
+answer-1e19
+
+
+
+Question 2
+A fixed-point number has a scaling factor of 1e18. We want to reduce the scaling factor to 1e15. What do we divide it by?
+answer-1000
+
+
+
+
+Question 3
+A fixed-point number has a scaling factor of 1e15. We want to reduce the scaling factor to 1e10. What do we divide it by?
+answer- 100000
+
+
+
+
+
+
+Question 4
+A fixed-point number has a scaling factor of 1e18. We want to reduce the scaling factor to 1e8. What do we divide it by?
+answer-1e10
+
+
+
+
+
+
+
+
+
+Question 5
+A fixed-point number has a scaling factor of 1e15. We want to reduce the scaling factor to 1e8. What do we divide it by?
+answer-1e7

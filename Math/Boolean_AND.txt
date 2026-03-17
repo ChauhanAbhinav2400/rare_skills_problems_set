@@ -1,0 +1,70 @@
+======================================================================================
+Boolean AND
+======================================================================================
+Description
+The AND operation compares two numbers bit by bit.
+
+If both bits are 1 → result is 1
+Otherwise → result is 0
+Here are all the possible combinations:
+
+1 AND 1 = 1
+1 AND 0 = 0
+0 AND 1 = 0
+0 AND 0 = 0
+When apply AND to numbers, we convert them to bits and apply AND to each bit. Most programming languages refer to bitwise and with the & operator.
+
+Example:
+
+2 & 3
+
+2 = 10 (binary)
+3 = 11 (binary)
+
+Bitwise AND:
+10
+& 11
+= 10
+
+Answer: 2
+
+If one number has more bits than the other, we left-pad the smaller number with zeros.
+
+Example:
+
+9 & 3
+
+9 = 1001
+3 = 0011
+1 = 0001
+
+So 9 & 3 = 1
+======================================================================================
+
+
+
+Question 1
+What is 5 & 3? Give your answer as a positive decimal integer.
+answer-1
+
+
+Question 2
+What is 6 & 2? Give your answer as a positive decimal integer.
+answer-2
+
+
+
+Question 3
+What is 7 & 1? Give your answer as a positive decimal integer.
+answer-1
+
+
+
+Question 4
+What is 12 & 8? Give your answer as a positive decimal integer.
+answer-8
+
+
+Question 5
+What is 14 & 7? Give your answer as a positive decimal integer.
+answer-6

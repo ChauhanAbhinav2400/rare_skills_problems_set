@@ -1,0 +1,79 @@
+=======================================================================================
+Subtracting Hexadecimal Numbers
+=======================================================================================
+Description
+Subtracting hexadecimal numbers works the same way as decimal subtraction.
+
+In decimal, you may need to borrow:
+704
+
+29
+675
+
+Here we borrowed from the “hundreds” column to make the subtraction work.
+
+Hexadecimal is the same, except digits can go from 0 up to F.
+
+Example: subtract 0x2F - 0x1A
+
+0x2F
+
+0x1A
+0x15
+
+Decimal check: 47 - 26 = 21
+
+Example with borrowing: subtract 0x3A - 0x27
+
+0x3A
+
+0x27
+0x13
+
+Here’s why:
+
+A (decimal 10) minus 7 = 3, no borrow needed.
+3 minus 2 = 1.
+Answer = 0x13, which is 19 in decimal.
+Another borrowing example: subtract 0x402 - 0x1F
+
+0x402
+
+0x1F
+0x3E3
+
+Explanation:
+
+Units place: 2 - F is not possible, so borrow.
+Borrow 1 from the “16s” column (0 becomes F), so now we have (16+2) - F = 3.
+Middle column: F (15) - 1 = E.
+Left column: 4 - 0 = 3.
+Answer = 0x3E3, which is 995 in decimal.
+Tip: When you borrow in hex, one unit from the next column equals 16 in the current column.
+=======================================================================================
+
+Question 1
+What is 0xA - 0x5 in hexadecimal?
+answer-0x5
+
+
+
+Question 2
+What is 0xF - 0x7 in hexadecimal?
+answer-0x8
+
+Question 3
+What is 0x1A - 0xA in hexadecimal?
+answer-0x10
+
+
+
+Question 4
+What is 0x3A - 0x27 in hexadecimal?
+answer - 0x13
+
+
+
+Question 5
+What is 0x402 - 0x1F in hexadecimal?
+asnwer- 0x3e3

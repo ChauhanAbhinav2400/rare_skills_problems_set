@@ -1,0 +1,32 @@
+
+Things to remember ==========================
+0 = 0 = 0 
+1 + 0 = 1
+0 + 1 = 1
+1 + 1 = 10
+==========================================
+
+Question 1
+0 + 0
+answer- 0
+
+
+Question 2
+1 + 0
+answer-1 
+
+
+
+Question 3
+10101010 + 01010101 
+answer- 11111111
+
+
+Question 4
+101 + 10
+answer- 111
+
+
+Question 5
+1 + 1
+answer-10

@@ -1,0 +1,90 @@
+=========================================================================================
+Multiplying fixed-point numbers with the same scaling factor
+====================================================================================
+Description
+Multiplying Fixed-point Numbers
+Recall the relationship between stored value, represented value, and scaling factor:
+
+RepresentedValue = StoredValue / ScalingFactor
+
+Let's shorten this to: R = S / F
+
+The Problem with Direct Multiplication
+If we multiply the stored values together directly, we will not get the correct answer.
+
+For example, if our scaling factor is 1e18, and our stored value is 10e18, then our represented value is 10:
+
+10 = 10e18 / 1e18
+
+Remember, only the value 10e18 is actually stored in the code, the values 10 and 1e18 are interpretations we apply on top of the 10e18.
+
+If we just multiply 10e18 with itself, we get a stored value of 100e36, which would yield the wrong represented value:
+
+100e18 = 100e36 / 1e18
+
+The correct represented value should be 100 (10 × 10).
+
+The Solution
+Therefore, when we multiply two fixed-point numbers together (that have the same scaling factor), we need to divide the result by the scaling factor again to bring it to the appropriate scale.
+
+The formula for multiplying the stored values of two fixed-point numbers with the same scaling factor to produce a product with the same scaling factor is:
+
+n1 * n2 / F
+
+where F is the scaling factor
+
+We must multiply the stored values, because the represented value and the scaling factors are not explicitly stored -- only the stored values are actually accessible to the program.
+
+Examples
+Example 1:
+Fixed-point number x has a stored value of 1000. Fixed-point number y has a stored value of 230000000. Both have a scaling factor of 1e18. What is the stored value of their product?
+
+Answer: 0
+
+This was computed as 1000 * 230000000 / 1e18. The product of the stored values is less than the scaling factor, so the result rounds down to zero.
+
+Example 2:
+Fixed-point number x has a stored value of 1000. Fixed-point number y has a stored value of 230. Both have a scaling factor of 100. What is the stored value of their product?
+
+Answer: 2300
+
+This was computed as 1000 * 230 / 100
+
+Note that the represented values from this example are 10 and 2.3. The product 10 * 2.3 = 23, which equals 2300 / 100.
+====================================================================================
+
+
+Question 1
+Fixed-point number `x` has a stored value of 302. Fixed-point number `y` has a stored value of 300000. Both have a scaling factor of 1e18. What is the stored value of their product, assuming the same scaling factor?
+answer- 0
+
+
+
+
+Question 2
+Fixed-point number `x` has a stored value of 34000000. Fixed-point number `y` has a stored value of 2000000. Both have a scaling factor of 1e6. What is the stored value of their product, assuming the same scaling factor?
+answer- 68000000
+
+
+
+
+
+Question 3
+Fixed-point number `x` has a stored value of 12345678. Fixed-point number `y` has a stored value of 987654321. Both have a scaling factor of 1e8. What is the stored value of their product, assuming the same scaling factor?
+answer- 121932622
+
+
+
+
+
+Question 4
+Fixed-point number `x` has a stored value of 1000000000000000. Fixed-point number `y` has a stored value of 10000000000000000000000. Both have a scaling factor of 1e18. What is the stored value of their product, assuming the same scaling factor?
+answer- 10000000000000000000
+
+
+
+
+
+Question 5
+Fixed-point number `x` has a stored value of 512. Fixed-point number `y` has a stored value of 204. Both have a scaling factor of 100. What is the stored value of their product, assuming the same scaling factor?
+answer-1044

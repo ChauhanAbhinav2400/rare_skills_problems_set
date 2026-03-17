@@ -1,0 +1,60 @@
+=======================================================================================
+Bits, Nibbles, and Bytes
+=======================================================================================
+Description
+A bit is a single binary digit: 0 or 1.
+
+A nibble is 4 bits grouped together.
+
+A byte is 8 bits grouped together.
+
+These are just units of measurement, like inches or centimeters — they tell us how many bits are grouped.
+
+Examples:
+
+Bit: 1
+Nibble: 1010
+Byte: 11001010
+
+We can group larger numbers too:
+
+2 bytes = 16 bits
+4 bytes = 32 bits
+8 bytes = 64 bits
+Computers usually work with whole bytes, so grouping in 8s (bytes) is very common.
+
+=======================================================================================
+
+
+
+Question 1
+How many bits are in a nibble?
+answer - 4
+
+
+Question 2
+How many bits are in a byte?
+answer- 8
+
+
+
+Question 3
+How many nibbles are in a byte?
+answer-2
+
+
+
+
+
+
+Question 4
+How many bits are in 2 bytes?
+answer- 16 
+
+
+
+
+
+Question 5
+How many bits are in 4 bytes?
+answer- 32

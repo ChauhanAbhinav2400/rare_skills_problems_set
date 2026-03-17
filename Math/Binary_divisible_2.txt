@@ -1,0 +1,61 @@
+
+=======================================================================================How to quickly tell if a binary number is divisible by a fixed power of 2
+=======================================================================================
+
+Description
+A binary number is divisible by 2ⁿ if and only if the last n bits are all 0.
+
+This works because 2ⁿ in binary is 1 followed by n zeros. For a number to be divisible by 2ⁿ, it must be a multiple of 2ⁿ, which means all bits representing values less than 2ⁿ must be zero.
+
+Divisibility rules:
+
+Divisible by 2¹ (2): Last 1 bit is 0
+Divisible by 2² (4): Last 2 bits are 00
+Divisible by 2³ (8): Last 3 bits are 000
+Divisible by 2⁴ (16): Last 4 bits are 0000
+Examples:
+
+10100₂ ends in 00 → divisible by 4, not by 8
+11000₂ ends in 000 → divisible by 8 (and also by 4 and 2)
+10010₂ ends in 10 → divisible by 2, not by 4
+10001₂ ends in 1 → not divisible by 2
+Example:
+What is the highest power of 2 that 110100₂ is divisible by?
+
+Answer:
+Last 2 bits: 00 → divisible by 4
+Last 3 bits: 100 → not divisible by 8
+The highest power of 2 it's divisible by is 4.
+
+=======================================================================================
+
+Question 1
+What is the highest power of 2 that 11000₂ is divisible by?
+answer-8
+
+
+
+Question 2
+What is the highest power of 2 that 10110₂ is divisible by?
+answer-2
+
+
+
+Question 3
+What is the highest power of 2 that 101100₂ is divisible by?
+answer-4
+
+
+
+
+Question 4
+What is the highest power of 2 that 1110000₂ is divisible by?
+answer-16
+
+
+
+
+
+Question 5
+What is the highest power of 2 that 11111000₂ is divisible by?
+answer-8

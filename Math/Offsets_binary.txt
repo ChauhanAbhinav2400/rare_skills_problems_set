@@ -1,0 +1,62 @@
+=======================================================================================
+Offsets When Two Binary Numbers Differ by One Bit
+=======================================================================================
+
+Description
+An offset is the difference between two numbers.
+
+If two binary numbers differ by exactly one bit, then their difference is always a power of 2.
+
+Why?
+
+Each bit position represents a power of 2.
+Changing just one bit changes the value by exactly that power of 2.
+Examples:
+
+0001 (1) vs 0011 (3)
+Difference = 2 (2¹)
+
+0100 (4) vs 0110 (6)
+Difference = 2 (2¹)
+
+0001 (1) vs 0101 (5)
+Difference = 4 (2²)
+
+1000 (8) vs 0000 (0)
+Difference = 8 (2³)
+
+Notice:
+
+If the two numbers differ by one bit, the difference is 1, 2, 4, 8, 16… depending on which bit changed.
+
+=======================================================================================
+
+
+Question 1
+What is the difference between 0001 and 0011? Provide your answer as a positive decimal integer.
+answer- 2
+
+
+
+Question 2
+What is the difference between 0010 and 0110? Provide your answer as a positive decimal integer.
+answer- 4
+
+
+Question 3
+What is the difference between 0100 and 0110? Provide your answer as a positive decimal integer.
+answer- 2
+
+
+
+Question 4
+What is the difference between 1000 and 0000? Provide your answer as a positive decimal integer.
+answer-8
+
+
+
+
+
+Question 5
+What is the difference between 0101 and 0111? Provide your answer as a positive decimal integer.
+answer-2

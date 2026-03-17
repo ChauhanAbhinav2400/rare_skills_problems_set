@@ -1,0 +1,24 @@
+Question 1
+What is the decimal value of `0₂`?
+answer - 0
+
+
+
+Question 2
+What is the decimal value of `1₂`?
+answer - 1
+
+Question 3
+What is the decimal value of `101₂`?
+answer - 5
+
+
+Question 4
+What is the decimal value of `110₂`?
+answer - 6
+
+
+
+Question 5
+What is the decimal value of `1001₂`?
+answer - 9

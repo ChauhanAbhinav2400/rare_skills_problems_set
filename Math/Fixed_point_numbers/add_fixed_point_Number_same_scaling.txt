@@ -1,0 +1,64 @@
+=================================================================================================
+Adding fixed-point numbers with the same scaling factor
+=================================================================================================
+Description
+Atomic Knowledge
+Recall that the scaling factor in fixed-point arithmetic is the constant S such that
+
+InterpretedValue = StoredInteger / S
+
+Suppose we want to add two fixed-point numbers together. As long as both of them use the same scaling factor, then we can do this with no issues.
+
+Consider that when we add fractions together, we need them to have a common denominator. If two fixed-point numbers have the same scaling factor, then we can add the interpreted values together with no issues. Consider the following:
+
+InterpretedValue_1 + InterpretedValue_2
+
+If both have the same scaling factor, then this can be algebraically substituted to
+
+StoredInteger_1 / S_1 + StoredInteger_2 / S_2
+
+But if their scaling factors are equal, then S_1 = S_2 = S and we can write the equation as
+
+StoredInteger_1 / S + StoredInteger_2 / S
+
+This becomes
+
+(StoredInteger_1 + StoredInteger_2) / S
+
+This means that to add two fixed-point numbers together, we can simply add their stored values.
+
+Example:
+
+What is the stored value of the sum of the fixed-point numbers 1.23 and 1.5, which use a scaling factor of 1000?
+
+Answer:
+
+2730
+
+To get the stored value of the sum, we add the stored values of the two fixed-point numbers. The stored value of 1.23 and 1.5 are 1230 and 1500 respectively. Their sum is 2730
+=================================================================================================
+
+
+Question 1
+What is the stored value of the sum of the fixed-point numbers 1.5 and 1.5 if the scaling factor is 10¹⁸?
+answer- 3*10^18
+
+
+Question 2
+What is the stored value of the sum of the fixed-point numbers 0.01 and 1.2 if the scaling factor is 10¹⁸?
+answer-121 * 10^16
+
+
+Question 3
+What is the stored value of the sum of the fixed-point numbers 100 and 11.1 if the scaling factor is 10¹⁵?
+answer-1111 * 10^14
+
+
+Question 4
+What is the stored value of the sum of the fixed-point numbers 56 and 93 if the scaling factor is 10¹⁵?
+answer- 149 * 10^15
+
+
+Question 5
+What is the stored value of the sum of the fixed-point numbers 1 and 2 if the scaling factor is 10⁶?
+answer- 3 * 10^6

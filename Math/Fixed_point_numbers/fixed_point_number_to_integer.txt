@@ -1,0 +1,76 @@
+==========================================================================================
+Converting a fixed-point number to an integer
+==========================================================================================
+Description
+Atomic Knowledge
+Converting a fixed-point number to an integer means we discard the decimal portion and keep the integer portion.
+
+In other words, we round down the value to the nearest integer, then return the integer.
+
+To do this, we simply divide by the scaling factor and discard any decimals. In Solidity, the decimals are discarded automatically.
+
+Mentally, we can just discard the scaling factor and everything after the decimal, but in actual code we divide by the scaling factor.
+
+Example:
+
+What is the fixed-point number 3.65 with scaling factor 10¹⁸ as an integer?
+
+Answer:
+
+3
+
+If we divide 3.65 * 10¹⁸ by 10¹⁸ we get 3.65, and rounding down, we get 3.
+
+Example:
+
+What is the fixed-point number 3650 with scaling factor 10¹⁵ as an integer?
+
+Answer:
+
+3650
+
+We already have the integer portion, so we simply divide by the scaling factor, which cancels it out.
+
+Example:
+
+What is the fixed-point number 0.65 with scaling factor 10¹⁸ as an integer?
+
+Answer:
+
+0
+
+0.65 × 10¹⁸ / 10¹⁸ = 0.65, which rounds down to zero. The original fixed-point number did not have a whole-number part to begin with.
+==========================================================================================
+
+Question 1
+What is the fixed-point number 2.34 with scaling factor 10⁸ as an integer?
+answer-2
+
+
+
+
+Question 2
+What is the fixed-point number 6.28 with scaling factor 10⁸ as an integer?
+answer-6
+
+
+
+
+
+Question 3
+What is the fixed-point number 0.519 with scaling factor 10¹⁸ as an integer?
+answer-0
+
+
+
+
+Question 4
+What is the fixed-point number 565 with scaling factor 10¹⁸ as an integer?
+answer-565
+
+
+
+
+Question 5
+What is the fixed-point number 1.44 with scaling factor 10²⁷ as an integer?
+answer-1

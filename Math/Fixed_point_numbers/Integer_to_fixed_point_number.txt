@@ -1,0 +1,54 @@
+========================================================================================
+Converting an integer to a fixed-point number
+========================================================================================
+Description
+Atomic Knowledge
+To convert an integer to a fixed-point number, we multiply the integer by the scaling factor.
+
+Example:
+
+Convert the integer 9 into a fixed-point number with a scaling factor of 10¹⁸.
+
+Answer:
+
+9000000000000000000
+
+This is simply 9 * 10¹⁸.
+
+Note that we didn't change the "true" value. Both 9 and 9000000000000000000 mean "9" but the interpretation is different.
+
+As a fixed point number with 18 decimals, 9000000000000000000 means 9.000000000000000000 which is equal to 9.
+========================================================================================
+
+
+
+Question 1
+Convert the integer 16 into a fixed-point number with a scaling factor of 10¹⁰
+answer- 16 * 10^10
+
+
+Question 2
+Convert the integer 42 into a fixed-point number with a scaling factor of 1000
+answer-42000
+
+
+
+
+
+Question 3
+Convert the integer 528 into a fixed-point number with a scaling factor of 10³⁸
+answer- 528 * 10^38
+
+
+
+
+
+Question 4
+Convert the integer 404 into a fixed-point number with a scaling factor of 10⁶
+answer-404 * 10^6
+
+
+
+Question 5
+Convert the integer 1 into a fixed-point number with a scaling factor of 10²⁷
+answer- 1 * 10^27

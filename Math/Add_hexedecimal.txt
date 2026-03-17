@@ -1,0 +1,78 @@
+=======================================================================================
+Adding Hexadecimal numbers together
+=======================================================================================
+
+Description
+The way we add hexadecimal numbers together is the same way we add decimal numbers.
+
+For example, when we add 1234 to 608 in decimal we line up the digits and carry:
+
+1 ← carry
+1234
+608
+1842
+
+Hexadecimal addition works the same way, but the digits can go from 0 up to F.
+
+Example: add 0x2F to 0x1A
+
+1     ← carry
+0x2F
+
+0x1A
+0x49
+
+Converting to decimal we get:
+0x2F = 47
+0x1A = 26
+0x49 = 73
+
+Example: add 0xAC to 0xC2
+
+1    ← carry
+0xAC
+
+0xC2
+0x16E
+
+Converting to decimal we get:
+0xAC = 172
+0xC2 = 194
+0x16E = 366
+
+The only things you need to memorize are how single digits add:
+
+0 + 0 = 0
+5 + 9 = E
+A + 7 = 11 (1, carry 1)
+F + F = 1E (E, carry 1)
+
+Tip: It’s the same “add and carry” method you already use in decimal or binary — only now the digits go from 0 to F.
+
+=======================================================================================
+
+Question 1
+0xA + 0x5
+answer-0xf
+
+
+
+Question 2
+0xA + 0xA
+answer-0x14
+
+
+Question 3
+0xF + 0x1
+answer-0x10
+
+
+Question 4
+0x1A + 0x2F
+answer-0x49
+
+
+
+Question 5
+0xAC + 0xC2
+answer-0x16e

@@ -1,0 +1,53 @@
+=======================================================================================
+Hex values when all bits are set
+
+=======================================================================================
+
+Description
+You’ve already seen hex numbers where a single bit is set.
+
+Another common pattern is when all the bits in a nibble, byte, or word are set to 1.
+
+In binary:
+1111 = 0xF
+11111111 = 0xFF
+1111111111111111 = 0xFFFF
+
+In general:
+
+0xF means 4 bits all set (a nibble).
+0xFF means 8 bits all set (a byte).
+0xFFFF means 16 bits all set (two bytes).
+0xFFFFFFFF means 32 bits all set (four bytes).
+These values show up in real code as masks (to keep only the lower k bits) or as sentinel values.
+=======================================================================================
+
+
+Question 1
+How many bits are set in 0xFF?
+answer-8
+
+
+
+
+Question 2
+How many bits are set in 0xF?
+asnwer-4
+
+
+
+Question 3
+How many bits are set in 0xFFFFFFFF?
+answer-32
+
+
+
+Question 4
+How many bits are set in 0xFFFF?
+answer- 16
+
+
+
+Question 5
+How many bits are set in 0xFFF?
+answer-12

@@ -1,0 +1,64 @@
+===========================================================================================
+Smallest value a fixed-point number can represent
+===========================================================================================
+Description
+Smallest Value in Fixed-Point Numbers
+The smallest value a fixed-point number can hold is 1 / F where F is the scaling factor.
+
+Understanding the Minimum Value
+Recall that the formula for fixed-point numbers is:
+
+RepresentedValue = StoredValue / ScalingFactor
+
+The smallest possible StoredValue is 1 (we cannot store fractions in integer types), so the smallest possible RepresentedValue is:
+
+SmallestValue = 1 / ScalingFactor
+
+This represents the precision or resolution of the fixed-point number system. Values smaller than this cannot be represented and will round down to zero.
+
+Example
+What is the smallest number a fixed-point number with a scaling factor of 1e6 can hold? Answer as a decimal number.
+
+Answer: 0.000001
+
+This was computed as 1 / 1e6
+
+Implications
+Any value smaller than 1/F cannot be represented in the fixed-point system
+This defines the precision limit of your fixed-point arithmetic
+When choosing a scaling factor, you must ensure it provides enough precision for your application's smallest meaningful values
+
+===========================================================================================
+
+
+Question 1
+What is the smallest number a fixed-point number with a scaling factor of 1e18 can hold? Answer as a decimal number.
+
+
+
+
+Question 2
+What is the smallest number a fixed-point number with a scaling factor of 1e4 can hold? Answer as a decimal number.
+
+
+
+Question 3
+What is the smallest number a fixed-point number with a scaling factor of 1e15 can hold? Answer as a decimal number.
+
+
+
+
+
+
+
+Question 4
+What is the smallest number a fixed-point number with a scaling factor of 1e8 can hold? Answer as a decimal number.
+
+
+
+
+
+
+
+Question 5
+What is the smallest number a fixed-point number with a scaling factor of 1e10 can hold? Answer as a decimal number.

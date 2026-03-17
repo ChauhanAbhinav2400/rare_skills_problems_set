@@ -1,0 +1,63 @@
+========================================================================================
+Right Shift
+========================================================================================
+Description
+You learned that shifting left by n multiplies by 2ⁿ.
+
+Right shifting is the opposite:
+
+Shifting right by 1 divides by 2 (rounding down).
+Shifting right by 2 divides by 2² = 4.
+Shifting right by 3 divides by 2³ = 8.
+So in general:
+x >> n = floor(x ÷ 2ⁿ)
+
+Example:
+12 >> 1 = 6
+12 >> 2 = 3
+12 >> 3 = 1
+
+Notice that the result always gets smaller, and odd numbers get rounded down because the last bit “falls off.”
+========================================================================================
+
+Question 1
+What is `20 >> 1` as a decimal integer?
+answer-10
+
+
+
+Question 2
+What is `7 >> 1` as a decimal integer?
+answer-6
+
+
+Question 3
+What is `15 >> 2` as a decimal integer?
+asnwer-3
+
+
+
+
+Question 4
+What is `40 >> 3` as a decimal integer?
+asnwer-5
+
+
+
+
+
+Question 5
+What is `100 >> 2` as a decimal integer?
+answer-25
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+==========================================================================================
+Adding an integer to a fixed-point number to get an integer
+==========================================================================================
+Description
+Atomic Knowledge
+To add an integer to a fixed-point number to get an integer, we must first convert the fixed-point number to an integer, so that we end up adding two integers together.
+
+This means that the decimal portion of the fixed-point number gets truncated. Since integers by definition do not have a decimal portion, the decimal portion of the fixed-point number must necessarily be discarded.
+
+Luckily, Solidity does that for us, as we saw previously. If `x` is a fixed point number with scaling factor 1e18, and `x` is storing 4.5e18, we can convert `x` to an integer by dividing it by the scaling factor, which gives us 4.
+
+Example:
+
+Add integer -2 to `x` where `x` is a fixed point number with scaling factor 1e10 and has a stored value of 55.6e10. What is the sum?
+
+Answer:
+
+53
+
+55.6e10 / 1e10 = 55 and we add -2, we get 53
+
+Example:
+
+Add integer -2 to `x` where `x` is a fixed point number with scaling factor 1e10 and has a stored value of 0.6e10. What is the sum?
+
+Answer:
+
+-2
+
+The fixed-point number has no whole-number portion, so it becomes zero when converted to an integer.
+==========================================================================================
+
+Question 1
+Add integer 24 to `x` where `x` is a fixed point number with scaling factor 1e15 and has a stored value of 76200000000000000. What is the sum?
+answer-100
+
+
+
+Question 2
+Add integer 31 to `x` where `x` is a fixed point number with scaling factor 1e18 and has a stored value of 556200000000000000000. What is the sum?
+answer-587
+
+
+
+Question 3
+Add integer 5 to `x` where `x` is a fixed point number with scaling factor 1e18 and has a stored value of 526500000000000000. What is the sum?
+answer-5
+
+
+
+
+Question 4
+Add integer 21 to `x` where `x` is a fixed point number with scaling factor 1e27 and has a stored value of 5.5e27. What is the sum?
+answer-26
+
+
+
+
+
+Question 5
+Add integer -9 to `x` where `x` is a fixed point number with scaling factor 1e6 and has a stored value of 1000000. What is the sum?
+answer= -8

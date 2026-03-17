@@ -1,0 +1,62 @@
+
+
+=================================================================
+Description
+By convention, we often put the most significant bit on the left and the least significant bit on the right.
+For the binary number 10110:
+
+MSB is 1 (represents 2⁴ = 16)
+LSB is 0 (represents 2⁰ = 1)
+This order is called "Most Significant Bit First" or "MSB First."
+However, we should not assume this is the only way binary numbers can be presented. "LSB First" happens sometimes also.
+
+Example: Bit sequence: 1, 0, 1, 1, 0
+
+MSB-first interpretation:
+
+Read as written: 10110₂ = 1 * 2^4 + 02^3 + 12^2 + 12^1 + 02^0 = 22₁₀
+LSB-first interpretation:
+Reverse the sequence: 10110₂ = 12^0 + 02^1 + 12^2 + 12^3 + 0*2^4 = 13₁₀
+The same bit sequence produces different values (22 vs 13) depending on interpretation. Most of the time when we write out binary bits, we assume MSB first, but there is no universal rule that says binary digits must be presented this way.
+
+Example:
+What is the MSB first and LSB first interpretation of 1010?
+
+Answer:
+MSB: 10
+LSB: 5
+==================================================================================
+Question 1
+Given the bit sequence: 1, 1, 0, 1. What is the decimal value if interpreted as MSB-first and LSB-first? Write your answer as decimal values separated by a comma with the MSB-first value first and the LSB-value second.
+answer - 13,11
+
+
+
+Question 2
+Given the bit sequence: 1, 0, 0, 0. What is the decimal value if interpreted as MSB-first and LSB-first? Write your answer as decimal values separated by a comma with the MSB-first value first and the LSB-value second.
+answer-8,1
+
+
+
+Question 3
+Given the bit sequence: 0, 1, 1, 1. What is the decimal value if interpreted as MSB-first and LSB-first? Write your answer as decimal values separated by a comma with the MSB-first value first and the LSB-value second.
+answer- 7,14
+
+
+
+
+
+Question 4
+Given the bit sequence: 1, 0, 1, 0, 1, 1. What is the decimal value if interpreted as MSB-first and LSB-first? Write your answer as decimal values separated by a comma with the MSB-first value first and the LSB-value second.
+answer-43,53
+
+
+
+
+Question 5
+Given the bit sequence: 1, 1, 1, 0, 0, 0, 1. What is the decimal value if interpreted as MSB-first and LSB-first? Write your answer as decimal values separated by a comma with the MSB-first value first and the LSB-value second.
+asnwer-113,71
+
+
+
+

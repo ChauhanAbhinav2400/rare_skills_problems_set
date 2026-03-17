@@ -1,0 +1,73 @@
+=======================================================================================
+Converting Decimal to Hexadecimal
+=======================================================================================
+Description
+Decimal is base 10. You know how to convert decimal to binary: divide by 2, track remainders, then read backwards.
+
+Converting decimal to hexadecimal works the SAME way, but with base 16:
+
+Repeatedly divide by 16.
+Each remainder is one hex digit.
+Stop when the quotient is 0.
+Read the remainders from last to first.
+Digits above 9 are written with letters:
+10=A, 11=B, 12=C, 13=D, 14=E, 15=F
+
+Examples:
+
+47 ÷ 16 = 2 remainder 15 → hex digits 2, F → 0x2F
+
+172 ÷ 16 = 10 remainder 12 → hex digits A, C → 0xAC
+
+255 ÷ 16 = 15 remainder 15 → hex digits F, F → 0xFF
+
+2895 ÷ 16 = 181 remainder 15 → digit F
+181 ÷ 16 = 11 remainder 5 → digits B, 4
+So reading backwards: B 4 F → 0xB4F
+(this is a three-digit hexadecimal number)
+
+48879 ÷ 16 = 3054 remainder 15 → digit F
+3054 ÷ 16 = 190 remainder 14 → digit E
+190 ÷ 16 = 11 remainder 14 → digit E
+11 ÷ 16 = 0 remainder 11 → digit B
+So reading backwards: B E E F → 0xBEEF
+(this is a four-digit hexadecimal number)
+
+Just like binary, leading zeros don’t change the value:
+0x00AC = 0xAC.
+
+=======================================================================================
+
+Question 1
+What is the hexadecimal value of 0?
+answer-0x0
+
+
+
+Question 2
+What is the hexadecimal value of 10?
+answer-0xA
+
+
+
+
+Question 3
+What is the hexadecimal value of 15?
+answer-0xf
+
+
+
+
+
+Question 4
+What is the hexadecimal value of 16?
+answer-0x10
+
+
+
+
+
+
+Question 5
+What is the hexadecimal value of 26?
+answer-0x1A

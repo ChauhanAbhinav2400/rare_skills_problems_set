@@ -1,0 +1,96 @@
+=======================================================================================
+Hexadecimal Numbers
+=======================================================================================
+
+Description
+Hexadecimal is base 16. Converting to decimal uses the SAME positional idea you already use:
+
+Base 10 example:
+1234 = 1×10^3 + 2×10^2 + 3×10^1 + 4×10^0.
+
+You also did this for binary (base 2):
+1011₂ = 1×2^3 + 0×2^2 + 1×2^1 + 1×2^0 = 11.
+
+Hexadecimal (base 16) works identically:
+each digit multiplies a power of 16 (rightmost is 16^0, then 16^1, 16^2, …).
+
+The digits for 10, 11, 12, 13, 14, and 15 are as follows
+A=10, B=11, C=12, D=13, E=14, F=15
+
+Example:
+0x2F = (2×16^1) + (F×16^0)
+= (2×16) + (15×1)
+= 32 + 15
+= 47
+
+Another example (multiple letters):
+0xB4F = (B×16^2) + (4×16^1) + (F×16^0)
+= (11×256) + (4×16) + (15×1)
+= 2816 + 64 + 15
+= 2895
+
+Small reference (0–15):
+decimal | hex
+0 | 0
+1 | 1
+2 | 2
+3 | 3
+4 | 4
+5 | 5
+6 | 6
+7 | 7
+8 | 8
+9 | 9
+10 | A
+11 | B
+12 | C
+13 | D
+14 | E
+15 | F
+
+Leading zeros don’t change the value:
+0x00AC = 0xAC.
+
+Hexadecimal numbers are usually written with a leading 0x to signify the number is hexadecimal.
+
+Feel free to use a calculator to answer the following questions.
+
+=======================================================================================
+
+Question 1
+What is the decimal value of 0x0?
+answer-0
+
+
+
+
+Question 2
+What is the decimal value of 0x1?
+answer-1
+
+
+
+
+Question 3
+What is the decimal value of 0xA?
+answer-10
+
+
+
+
+
+
+
+
+Question 4
+What is the decimal value of 0x10?
+answer-16
+
+
+
+
+
+
+Question 5
+What is the decimal value of 0x1A?
+answer-26

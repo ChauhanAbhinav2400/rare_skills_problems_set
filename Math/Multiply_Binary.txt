@@ -1,0 +1,60 @@
+==============================================
+
+What is the product of the binary numbers 101 times 110?
+
+Answer: 11110
+
+     101
+   × 110
+--------
+     000
+    101
++  101
+--------
+   11110
+If we convert the binary numbers to their decimal form, we see that we carried out the multiplication 5 × 6 = 30.
+
+Note that the addition might have a carry sometimes
+
+Example:
+
+What is the product of the binary numbers 111 and 111?
+
+Answer: 110001
+
+When adding several 1s together, we need to put the carry bit into the correct column, not necessarily the one directly to the left. In the computation for this example, the column of 4 ones results in 100 (4), so the carry skips a column
+
+         111
+       × 111
+    --------
+       1
+carry  1 1 
+         111
+        111
++      111
+------------
+      110001
+
+
+==================================================================      
+Question 1
+What is the product of the binary numbers 11 and 1 in binary?
+answer- 11
+
+Question 2
+What is the product of the binary numbers 10 and 10 in binary?
+answer-100
+
+Question 3
+What is the product of the binary numbers 11 and 11 in binary?
+answer- 1001
+
+
+Question 4
+What is the product of the binary numbers 111 and 101 in binary?
+answer- 100011
+
+
+Question 5
+What is the product of the binary numbers 11 and 101 in binary?
+answer- 1111

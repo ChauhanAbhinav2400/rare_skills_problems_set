@@ -1,0 +1,45 @@
+=======================================================================================
+Hexadecimal Numbers and Nibbles and Bytes
+=======================================================================================
+Description
+You’ve already learned:
+
+A bit is one binary digit (0 or 1).
+A nibble is 4 bits.
+A byte is 8 bits.
+Now we connect this to hexadecimal.
+
+Each hex digit corresponds exactly to one nibble (4 bits).
+That means:
+
+1 nibble = 1 hex digit
+1 byte = 2 hex digits
+2 bytes = 4 hex digits
+Example:
+0xA → 1 hex digit → 1 nibble
+0xAC → 2 hex digits → 1 byte
+0xBEEF → 4 hex digits → 2 bytes
+=======================================================================================
+
+Question 1
+How many nibbles are in 0xA?
+answer-1
+
+Question 2
+How many bytes are in 0xAC?
+answer-1
+
+
+Question 3
+How many nibbles are in 0x123?
+answer-3
+
+Question 4
+How many bytes are in 0xFF?
+answer - 1
+
+
+
+Question 5
+How many nibbles are in 0xBEEF?
+answer-4

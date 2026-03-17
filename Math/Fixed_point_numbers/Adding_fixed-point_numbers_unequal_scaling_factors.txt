@@ -1,0 +1,69 @@
+==========================================================================================
+Adding fixed-point numbers with unequal scaling factors
+========================================================================================
+Description
+Atomic Knowledge
+If we want to add two fixed-point numbers with unequal scaling factors, we must convert both to use the same scaling factor as the output scaling factor before we add them together.
+
+Example:
+
+`x` is a fixed-point number with a scaling factor of 1e18
+`y` is a fixed-point number with a scaling factor of 1e6
+
+We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e15. Write the code that accomplishes this.
+
+Answer:
+
+x / 1e3 + y * 1e9;
+
+Since the target is 1e15, we need to scale down the `x` from 1e18 to 1e15 by dividing it by 1e3. We also need to scale up y to 1e15 by multiplying it by the 1e9.
+
+Example:
+
+`x` is a fixed-point number with a scaling factor of 1e22. `y` is a fixed-point number with a scaling factor of 1e12. We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e12. Write the code that accomplishes this.
+
+Answer:
+
+x / 1e10 + y;
+
+y already has the correct scaling factor, so we don't need to multiply or divide it by anything.
+
+In the problems below, please use scientific notation to represent the numbers. If there is no need for a change of scaling factor as is and do not multiply or divide it with 1e0. Don't forget the semicolon at the end.
+========================================================================================
+
+Question 1
+`x` is a fixed-point number with a scaling factor of 1e22. `y` is a fixed-point number with a scaling factor of 1e15. We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e12. Write the code that accomplishes this.
+answer-x/1e10 + y/1e3
+
+
+
+Question 2
+`x` is a fixed-point number with a scaling factor of 1e18. `y` is a fixed-point number with a scaling factor of 1e15. We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e12. Write the code that accomplishes this.
+answer-x/1e6 + y/1e3
+
+
+
+
+Question 3
+`x` is a fixed-point number with a scaling factor of 1e8. `y` is a fixed-point number with a scaling factor of 1e10. We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e15. Write the code that accomplishes this.
+answer- x*1e7 + y*1e5
+
+
+
+
+
+
+Question 4
+`x` is a fixed-point number with a scaling factor of 1e18. `y` is a fixed-point number with a scaling factor of 1e18. We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e18. Write the code that accomplishes this.
+answer-x + y
+
+
+
+
+
+
+
+
+Question 5
+`x` is a fixed-point number with a scaling factor of 1e18. `y` is a fixed-point number with a scaling factor of 1e10. We want to add `x` and `y` and get a fixed-point number with a scaling factor of 1e18. Write the code that accomplishes this.
+answer-x+ y * 1e10

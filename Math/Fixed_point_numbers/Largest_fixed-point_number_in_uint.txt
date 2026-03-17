@@ -1,0 +1,86 @@
+====================================================================================
+Largest fixed-point number representable in a uint
+====================================================================================
+Description
+Atomic Knowledge
+Suppose we have a uint112. What is the largest value a fixed-point number with scaling factor 10¹⁸ that the uint112 can represent?
+
+First, we know it will be less than 2¹¹²-1 because that is the largest integer a uint112 can hold, but we also need to "make room" for the decimals.
+
+To answer this question "what is the largest fixed-point number with scaling factor 10^18 that can fit in a uint112" we take the largest number that fits in a uint112 and use that as the stored value for the fixed-point number, then compute the interpreted value.
+
+The largest value a uint112 can store is 2¹¹²-1. To find the interpreted value, we divide that by the scaling factor.
+
+This gives us (2¹¹²-1) / 10¹⁸ = 5192296858534827.628530496329220095
+
+Note that a lot of calculators will lose precision when dealing with numbers this large, so check your calculations carefully.
+
+Example:
+
+What is the largest value that can be represented by a uint56 holding a fixed-point number with a scaling factor of 10²⁷?
+
+Answer:
+
+0.000000000072057594037927935
+
+This was computed as
+
+(2⁵⁶-1) / 10²⁷ = 0.000000000072057594037927935
+
+It's clear that uint56 cannot hold large values of a fixed-point number with scaling factor 10²⁷.
+
+We could also arrive at this number manually by starting with the maximum value of uint56
+
+72057594037927935
+
+adding a decimal to the end
+
+72057594037927935.
+
+and then manually moving the decimal over 27 places
+
+0.000000000072057594037927935
+
+This is a good sanity check to make sure your calculator didn't introduce rounding errors.
+
+Example:
+
+What is the largest value that can be represented by a uint8 holding a fixed-point number with a scaling factor of 10²⁷?
+
+Answer:
+
+0.000000000000000000000000255
+====================================================================================
+
+Question 1
+What is the largest value that can be represented by a uint16 holding a fixed-point number with a scaling factor of 100?
+answer- 655.35
+
+
+
+
+Question 2
+What is the largest value that can be represented by a uint256 holding a fixed-point number with a scaling factor of 10²⁷?
+answer-(2^256-1) / 10^27
+
+
+
+
+Question 3
+What is the largest value that can be represented by a uint32 holding a fixed-point number with a scaling factor of 10¹⁸?
+answer- (2^32-1) / 10^18 
+
+
+
+
+
+Question 4
+What is the largest value that can be represented by a uint64 holding a fixed-point number with a scaling factor of 10¹⁸?
+answer- 2^64-1 / 10^18
+
+
+
+
+Question 5
+What is the largest value that can be represented by a uint24 holding a fixed-point number with a scaling factor of 10⁶?
+answer- 2^24-1 / 10^6

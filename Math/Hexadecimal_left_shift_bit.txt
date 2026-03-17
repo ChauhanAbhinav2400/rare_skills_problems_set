@@ -1,0 +1,94 @@
+=====================================================================================
+Hexadecimal Values Before and After Shifting
+
+=====================================================================================
+
+Description
+We already know how to shift bits left (<<) and right (>>).
+
+Now let’s apply this to hexadecimal numbers.
+
+Process:
+
+Convert each hex digit into its 4-bit binary nibble.
+Perform the shift on the binary number.
+Convert the binary result back into hex.
+Example 1: Left Shift
+Start with 0x3 (0011).
+
+0x3 << 1:
+0011 → 0110
+= 0x6
+
+Example 2: Left Shift Across Nibble
+Start with 0x9 (1001).
+
+0x9 << 1:
+1001 → 0001 0010
+= 0x12
+
+Notice: the result takes 2 hex digits. Left shifts can increase the number of hex digits.
+
+Example 3: Right Shift
+Start with 0xC (1100).
+
+0xC >> 1:
+1100 → 0110
+= 0x6
+
+Example 4: Bits Falling Off
+Start with 0x9 (1001).
+
+0x9 >> 1:
+1001 → 0100
+= 0x4
+
+The last bit “fell off.” This is why right shifts reduce the value.
+
+Example 5: Larger Hex Number
+Start with 0xAB (1010 1011).
+
+0xAB << 2:
+10101011 → 10 1010 1100
+= 0x2AC
+
+0xAB >> 3:
+10101011 → 00010101
+= 0x15
+
+In general:
+
+Left shifts can add new hex digits.
+Right shifts can make the number smaller, losing bits.
+=====================================================================================
+
+
+Question 1
+What is `0x7 << 1` in hex?
+answer-0xe
+
+
+
+
+Question 2
+What is `0x9 << 1` in hex?
+asnwer- 0x12
+
+
+
+Question 3
+What is `0xC >> 2` in hex?
+answer-0x3
+
+
+
+
+Question 4
+What is `0x15 >> 1` in hex?
+answer-0xA
+
+
+
+Question 5
+What is `0x3F << 1` in hex?
+answer-0x7e

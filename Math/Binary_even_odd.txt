@@ -1,0 +1,61 @@
+====================================================================================
+How to quickly tell if a binary number is even or odd =======================================================================================
+
+Description
+A binary number is odd if and only if its least significant bit (LSB) is 1.
+A binary number is even if and only if its least significant bit (LSB) is 0.
+
+This works because the LSB represents 2⁰ = 1, which is the only odd power of 2. All other bits represent even powers of 2 (2¹ = 2, 2² = 4, 2³ = 8, etc.).
+
+Since the sum of even numbers is always even, the only way to get an odd result is if we add 1 (the LSB).
+
+Examples:
+
+10110₂ ends in 0 → even (equals 22₁₀)
+10111₂ ends in 1 → odd (equals 23₁₀)
+11111₂ ends in 1 → odd (equals 31₁₀)
+10000₂ ends in 0 → even (equals 16₁₀)
+This is the same pattern as decimal numbers where we check the ones digit: numbers ending in 0,2,4,6,8 are even and those ending in 1,3,5,7,9 are odd. In binary, we only have two possibilities: 0 (even) or 1 (odd).
+
+Example:
+Is 110101₂ even or odd?
+
+Answer:
+The LSB is 1, so the number is odd.
+
+====================================================================================
+
+Question 1
+Is 1011₂ even or odd?
+answer-odd
+
+
+
+Question 2
+Is 1100₂ even or odd?
+asnwer-even
+
+
+
+
+Question 3
+Is 10101₂ even or odd?
+answer-odd
+
+
+
+
+Question 4
+Is 11110₂ even or odd?
+answer- even 
+
+
+
+
+Question 5
+Is 111111₂ even or odd?
+answer-odd
+
+
+
+

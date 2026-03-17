@@ -1,0 +1,80 @@
+===============================================================================================================
+Boolean OR
+===============================================================================================================
+Description
+The OR operation compares two numbers bit by bit.
+
+If either bit is 1 → result is 1
+Otherwise → result is 0
+Here are all the possible combinations:
+
+1 OR 1 = 1
+1 OR 0 = 1
+0 OR 1 = 1
+0 OR 0 = 0
+When we apply OR to numbers, we convert them to binary and apply OR to each bit.
+Most programming languages refer to bitwise OR with the | operator.
+
+Worked Example 1
+
+What is 2 | 3?
+
+Answer: 3
+
+2 = 10 (binary)
+3 = 11 (binary)
+
+Bitwise OR:
+
+   10  
+|  11  
+----  
+   11
+Converting that binary value results in 3
+
+Worked Example 2 (Padding)
+
+If one number has more bits than the other, we left-pad the smaller number with zeros.
+
+9 | 3
+
+1001   (9)  
+0011   (3, padded)  
+----  
+1011   (11)  
+Answer: 11
+===============================================================================================================
+
+
+Question 1
+What is 5 | 3? Give your answer as a positive decimal integer.
+answer- 7
+
+
+
+Question 2
+What is 6 | 2? Give your answer as a positive decimal integer.
+answer-6
+
+
+
+Question 3
+What is 7 | 1? Give your answer as a positive decimal integer.
+asnwer - 7 
+
+
+
+
+
+Question 4
+What is 12 | 8? Give your answer as a positive decimal integer.
+answer - 12
+
+
+
+
+
+
+Question 5
+What is 14 | 7? Give your answer as a positive decimal integer.
+answer- 15

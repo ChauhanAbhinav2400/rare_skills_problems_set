@@ -1,0 +1,25 @@
+
+Question 1
+Which is larger: 1011 or 1110?
+answer- 1110
+
+
+Question 2
+Which is larger: 1011 or 111?
+answer- 1011
+
+
+
+Question 3
+Which is larger: 10010 or 01101?
+answer- 10010
+
+
+Question 4
+Which is larger: 101001 or 101010?
+answer- 101010
+
+
+Question 5
+Which is larger: 00101 or 101?
+answer-equal

@@ -1,0 +1,64 @@
+========================================================================================
+Left Shifting Bits
+
+========================================================================================
+Description
+In decimal, multiplying by 10 shifts digits left:
+123 × 10 = 1230
+
+In binary, multiplying by 10₂ (which equals 2₁₀) also shifts digits left.
+
+We can show this with the multiplication layout you already learned:
+
+   0101   (5)
+×    10   (2)
+--------
+   0000
++  0101
+--------
+  01010  (10)
+Notice: 0101 << 1 = 1010.
+So shifting left by 1 is the same as multiplying by 2.
+
+If we shift left by 2:
+x << 2 = x × 2² = x × 4
+
+If we shift left by 3:
+x << 3 = x × 2³ = x × 8
+
+In general:
+x << n = x × 2ⁿ
+
+Example:
+
+What is 6 << 2 as a decimal integer?
+
+Answer:
+
+24
+
+6 * 2^2 = 24
+========================================================================================
+
+
+Question 1
+What is `3 << 1` as a decimal integer?
+answer-6
+
+Question 2
+What is `5 << 2` as a decimal integer?
+answer-20
+
+Question 3
+What is `7 << 3` as a decimal integer?
+answer-56
+
+
+Question 4
+What is `9 << 2` as a decimal integer?
+answer-36
+
+
+Question 5
+What is `10 << 3` as a decimal integer?
+answer-80

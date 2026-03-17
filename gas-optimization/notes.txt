@@ -1,0 +1,278 @@
+GAS OPTIMIZATION
+
+
+1. EIP-1559 & Gas Fee Mechanism
+Base Fee
+•	Set by the Ethereum protocol — you cannot control it
+•	This amount is ALWAYS burned (nobody receives it)
+•	If last block was FULL → base fee goes UP by ~12%
+•	If last block was EMPTY → base fee goes DOWN by ~12%
+•	Accessible in Solidity (v0.8.7+) via block.basefee
+
+Max Fee Per Gas
+•	Maximum gwei per gas you are willing to pay in total
+•	Must be HIGHER than the current base fee or tx won't go through
+•	If max fee > base fee → difference is REFUNDED to you
+•	Gas price per gwei is always ≤ max fee
+
+Max Priority Fee Per Gas (Tip)
+•	Tip to the miner to prioritize your transaction
+•	Miner receives whichever is SMALLER: priority fee  OR  (max fee − base fee)
+
+Example
+Variable	Value
+Max Fee	50 gwei
+Max Priority Fee	2 gwei
+Protocol Base Fee	36 gwei
+Burned	36 gwei 🔥
+Miner receives	2 gwei
+Refunded to you	12 gwei 💸
+
+💡 The Yellow Paper is outdated. Always refer to EIP-3529 for current refund rules.
+
+2. Memory
+Memory Layout
+•	Indexed like an array — in 32-byte (0x20) increments
+•	Only exists during transaction execution (like RAM)
+•	Every 32-byte slot allocated costs 3 gas
+•	Charged for ALL slots up to the highest one written — even if skipping earlier ones
+
+Solidity's Reserved Memory (Always Allocated)
+Bytes	Purpose
+0x00 – 0x3F  (slots 0–1)	Scratch space for hashing methods
+0x40 – 0x5F  (slot 2)	Free memory pointer (stores 0x80 = 128)
+0x60 – 0x7F  (slot 3)	Zero slot (reserved, never written to)
+
+Solidity always executes: PUSH 0x80 → PUSH 0x40 → MSTORE at function start
+This stores 128 (0x80) at slot 0x40, indicating: 'free memory starts at byte 128'
+
+Memory Explosion Warning
+Array Size	Gas Cost
+uint256[10]	342 gas
+uint256[20]	403 gas
+uint256[30]	464 gas
+uint256[10,000]	276,374 gas
+uint256[20,000]	992,221 gas
+uint256[30,000]	OUT OF GAS 💥
+
+⚠️  Block gas limit is 31 million. Never allocate very large in-memory arrays — they will consume enormous gas or cause out-of-gas errors.
+
+3. Storage
+Storage is the MOST expensive operation in Ethereum — an order of magnitude more costly than almost everything else. All nodes must store it permanently.
+
+Storage Write Costs
+Operation	Gas Cost	Why
+Zero → Non-Zero	20,000 gas	New data indexed on all nodes forever
+Non-Zero → Non-Zero	5,000 gas	Slot already tracked, just updating
+Non-Zero → Zero	REFUND	Freeing storage; reward for cleanup
+Write same value (no change)	100 gas	Warm access only, no real change
+
+Cold vs Warm Access
+•	Cold Access (2,100 gas): First time you touch a storage variable in a transaction
+•	Warm Access (100 gas): Any subsequent access to the SAME variable in the same transaction
+
+💡 Cache storage variables into local variables if read multiple times in one function — pay cold access once, then use the cheap local copy.
+
+Read + Write Cost Insight
+Scenario	Calculation	Total
+Read THEN Write (0→nonzero)	2,100 (cold read) + 20,100 (warm write)	22,200 gas
+Write only (0→nonzero)	2,100 (cold) + 20,000 (write)	22,100 gas
+Conclusion	Cost(Read + Write) ≈ Cost(Write only)	~same!
+
+Arrays in Storage
+•	Arrays use TWO storage slots:
+◦	Slot 0: stores the LENGTH of the array
+◦	Slot 1+: stores the actual VALUES
+
+Example — Adding one element to empty array [5]:
+Cost	Reason
+21,000 gas	Base transaction
+22,100 gas	Store VALUE (0→nonzero + cold access)
+22,100 gas	Store LENGTH (0→nonzero + cold access)
+~65,000 gas total	
+
+⚠️  Use .push() instead of rewriting the whole array — avoids re-touching existing slots.
+⚠️  Deleting long arrays is expensive: each element costs 5,000 gas with only partial refund. A 1,000-item array delete could cost millions of gas.
+
+Storing 1KB on Ethereum (Practical Calculation)
+•	1 KB = 1,024 bytes
+•	Each slot = 32 bytes → 1024 ÷ 32 = 32 slots
+•	Cost per slot (0→nonzero) = 22,100 gas
+•	Total: 32 × 22,100 = 707,200 gas
+•	At 50 gwei gas price: 50 × 707,200 = 35,360,000 gwei = ~$106 USD
+
+Gas Refund Mechanics
+Berlin Rules (Old — Yellow Paper)
+•	Refund up to 1/2 of total gas spent
+•	Max refund: 15,000 gas per cleared variable
+•	Self-destruct also gave refund
+
+London Rules (Current — EIP-3529)
+•	Refund up to 1/5 of total gas spent
+•	Max refund: 4,800 gas per cleared variable
+•	Self-destruct NO LONGER gives refund
+
+Rule	Berlin (Old)	London (Current)
+Max refund cap	½ of gas spent	⅕ of gas spent
+Max per variable	15,000 gas	4,800 gas
+Self-destruct refund	Yes	No ❌
+
+💡 Each variable you clear: pay 5,000 gas, get back max 4,800 → net cost of 200 gas per extra variable cleared. Refunds only fully work when paired with other expensive operations in the same tx.
+
+Count DOWN, Not Up
+If tracking a number (e.g. NFTs minted per address):
+•	Counting UP:  0→1→2→3 = pay 22,100 + 5,000 + 5,000 = 32,100 gas total
+•	Counting DOWN: 3→2→1→0 = cheaper! Final step to zero earns refund
+💡 Design counters to decrement to zero — the refund on the final step offsets earlier costs.
+
+4. The Solidity Optimizer
+What It Does
+The optimizer has one job with two modes — a tradeoff between deploy cost and execution cost.
+Runs Setting	Optimizes For	Contract Size	Execution Cost
+Low (e.g. 1)	Deployment cost	Smaller ✅	More expensive per call ❌
+High (e.g. 1,000,000)	Execution cost	Larger ❌	Cheaper per call ✅
+Default (200)	Balanced (deploy)	Moderate	Not optimal for users
+
+Real Example — ERC-20 Contract
+Optimizer Setting	Contract Size	Transfer Cost
+Off	6,160 bytes	47,605 gas
+200 runs (default)	2,919 bytes	46,814 gas
+10,000 runs	3,587 bytes	~46,700 gas
+
+Best Practice
+•	Keep increasing runs and measure your key function's gas cost
+•	Stop when you no longer see improvement
+•	Only use low runs if you are very sensitive to deployment cost
+•	Uniswap V3 uses 1,000,000 runs — correctly predicting millions of calls
+⚠️  Default of 200 in Hardhat/Remix prioritizes the developer's one-time deploy cost over every user's ongoing transaction cost. For production DeFi, increase this significantly.
+
+5. Function-Level Optimizations
+payable Functions Are Cheaper
+Function Type	Gas Cost	Reason
+Non-payable	21,186 gas	Auto-generates ETH check: if(msg.value != 0) revert
+payable	21,162 gas	No ETH check needed — skips those opcodes
+Saving	24 gas	Fewer opcodes executed
+
+💡 The payable keyword removes an auto-generated ETH check from compiled bytecode → fewer opcodes → less gas.
+
+Function Name Affects Gas (Selector Order)
+•	Function selector = first 4 bytes of keccak256(functionSignature)
+•	Solidity sorts selector checks in ASCENDING hexadecimal order
+•	Functions with lower hex selectors are checked FIRST → cost less gas
+•	Each additional check costs exactly 22 gas (3+3+3+10+3 from opcodes: PUSH+EQ+PUSH+JUMPI+DUP1)
+
+Function	Selector	Position	Extra Gas
+red	0x29...	1st checked	+0 gas
+blue	0xE1...	2nd checked	+22 gas
+green	0xF2...	3rd checked	+44 gas
+
+⚠️  When benchmarking a function, NEVER change its name during testing — you won't know if gas changes come from your code edits or from the selector position shifting.
+
+calldata vs memory for Function Parameters
+Keyword	Gas	Can Modify?	Use When
+calldata	21,865	❌ Read-only	Don't need to modify input
+memory	22,011	✅ Yes	Need to modify the input
+memory (direct)	22,419	✅ Yes	Cheaper than calldata+copy when mutation needed
+
+💡 If you need to mutate the input: declare it as 'memory' directly instead of 'calldata + local copy'. This saves ~23 gas.
+
+Short-Circuit Evaluation (&&, ||)
+•	OR  ||  → if first condition is TRUE, second is SKIPPED
+•	AND && → if first condition is FALSE, second is SKIPPED
+•	Put the CHEAPER condition first to maximize skipping the expensive one
+
+Example — Token Sale:
+Check	Cost	Order
+block.timestamp > saleStart	2 gas	Put FIRST ✅
+isOnAllowList[msg.sender]	2,100 gas (storage)	Put SECOND
+
+💡 Real rule: Expected Gas = Cost(A) + P(B is reached) × Cost(B). Multiply probability × cost, not just cost alone.
+
+6. Variable Packing
+Each storage slot = 32 bytes. Packing means fitting multiple smaller variables into one slot.
+
+Without Packing	With Packing
+uint256 a  → slot 0 (32 bytes)	uint128 a  ┐
+uint256 b  → slot 1 (32 bytes)	uint128 b  ┘ → slot 0 (32 bytes combined)
+
+How Solidity Reads Packed Variables
+•	Each variable has a slot (storage location) AND an offset (position within that slot)
+•	uint128 a → slot 0, offset 0;   uint128 b → slot 0, offset 16
+•	To read 'a': load full slot → AND with bitmask to zero out 'b' portion
+•	This masking costs extra computation compared to plain uint256
+
+When to Pack (and When NOT to)
+Situation	Use Packing?	Reason
+Variables written TOGETHER in same tx	✅ Yes	Saves one full SSTORE (22,100 gas)
+Variables written SEPARATELY	❌ No	Masking overhead costs more than saved
+Maximum computation speed needed	❌ No	uint256 has no masking overhead
+Reducing total storage slots used	✅ Yes	Fewer slots = lower deployment cost
+
+💡 Example: Staking contract storing 'amount' (uint128) + 'timestamp' (uint128) — always written together → packs perfectly into one slot → saves ~22,100 gas vs two uint256 slots.
+
+7. Loop Optimizations
+Cache Array Length
+Every time myArray.length is evaluated in a loop condition, it does a WARM SLOAD (100 gas).
+
+Version	Gas Cost	Notes
+Without cache (dynamic array)	49,119 gas	10 × 100 = 1,000 gas wasted on length reads
+With cached length	48,124 gas	Length read only once before loop
+Saving	~995 gas	Minus 5 gas for 2 extra opcodes (DUP+POP)
+
+Correct pattern:
+uint256 length = myArray.length;  // ONE storage read
+for (uint256 i = 0; i < length; i++) { ... }
+
+⚠️  This trick only works for DYNAMIC arrays. Fixed-size arrays don't store length in storage — the compiler knows it at compile time.
+
+8. Bit Shifting Instead of Multiply/Divide
+Multiplying or dividing by powers of 2 can be replaced with cheaper bit shift operations.
+
+Operation	Traditional Opcode (5 gas)	Bit Shift (3 gas)	Gas Saved
+× 2	x * 2	x << 1	2 gas
+× 4	x * 4	x << 2	2 gas
+× 8	x * 8	x << 3	2 gas
+÷ 2	x / 2	x >> 1	5 gas
+÷ 4	x / 4	x >> 2	5 gas
+
+⚠️  Left shift (<<) can OVERFLOW if ones shift off the left edge. You lose Solidity's built-in overflow protection. Right shift (>>) is safe — worst case is zero.
+
+9. Avoiding Same-Value Storage Writes
+Writing a value to storage that is ALREADY that value still costs 100 gas (warm access fee).
+
+Optimization: use an if-check to skip the write if value won't change.
+
+Approach	Gas Cost
+Always write (even if same value)	5,000 or 100 gas for no-op
+if (_cached != newValue) → write	Saves 35 gas vs always writing
+
+💡 This trick saves gas ONLY IF: (a) you already read the variable before writing it, OR (b) most of the time the value is NOT changing. If the value almost always changes, the if-check overhead cancels out the savings.
+
+10. Constant Expression Optimization
+When Solidity Optimizes Automatically ✅
+•	Simple arithmetic: 3 * 7 → compiles to PUSH 0x15 (no MUL opcode in bytecode)
+•	Simple division: 22 / 2 → compiles to PUSH 0xB (no DIV opcode)
+•	keccak256 of string literal → pre-computed hash in bytecode
+
+When Solidity FAILS to Optimize ❌
+•	Math spread across multiple variables: uint256 a = 22; uint256 b = 2; a / b — DIV opcode appears!
+•	keccak256 with type conversions — hash computed at runtime
+•	Exponentiation: 2 ** 10 — EXP opcode appears even though answer is constant
+
+⚠️  EXP opcode has VARIABLE gas cost depending on input size. Pre-calculate exponents manually: write 1024 instead of 2**10.
+
+How to Check
+•	Compile in Remix → copy bytecode assembly
+•	Search for opcodes: MUL, DIV, EXP, SHA3
+•	If found in a section that should be constant → pre-calculate it yourself
+💡 The Solidity compiler is not as mature as GCC/Clang. Never assume it will catch every constant optimization — verify the bytecode when gas matters.
+
+11. Summary — 5 Places to Save Gas
+#	Area	Key Strategy
+1	Deployment Size	Smaller contract = less bytecode stored. Fewer opcodes → cheaper to deploy.
+2	Computation	Use fewer or cheaper opcodes. Shift instead of multiply. Use payable. Avoid unnecessary checks.
+3	Transaction Data	Fewer bytes sent. Zero bytes cost 4 gas; non-zero cost 16 gas. Minimize calldata.
+4	Memory	Avoid allocating more memory than needed. No garbage collector — allocated memory can't be freed.
+5	Storage	Most impactful area. Avoid 0→nonzero writes, pack variables, cache reads, count down not up.
+
+

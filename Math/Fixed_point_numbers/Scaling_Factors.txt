@@ -1,0 +1,68 @@
+=========================================================================================
+Scaling Factors for Fixed Point Numbers
+=========================================================================================
+Description
+Atomic Knowledge
+A scaling factor in fixed-point arithmetic is the constant S such that
+
+InterpretedValue = StoredInteger / S
+
+Equivalently, S is the ratio between the integer actually kept in memory and what the value is interpreted to mean.
+
+For example, if S = 100, and the stored integer is 1234, but we interpret the value as 12.34.
+
+The most common scaling factor in Ethereum (and Solidity) is 10¹⁸.
+
+To represent 1 Ether, we store 10¹⁸, but interpret it as 1
+
+This allows us to store 1500000000000000000 but interpret the value as 1.5 ether.
+
+Example: Our fixed-point number has a scaling factor of 10¹⁵. What value is stored such that the interpretation is 0.62?
+
+Answer:
+
+620000000000000
+
+To arrive at this, we solve InterpretedValue = StoredInteger / S for StoredInteger, which means StoredInteger = InterpretedValue * S. 0.62 * 10¹⁵ = 620000000000000.
+
+Example: Our fixed-point number has a scaling factor of 10⁶. What value is stored such that the interpretation is 100.5?
+
+Answer:
+
+100500000
+
+We computed this as 100.5 * 10⁶ = 100500000
+
+=========================================================================================
+
+
+Question 1
+Our fixed-point number has a scaling factor of 10. What value is stored such that the interpretation is 0.5?
+ans- 5
+
+
+
+Question 2
+Our fixed-point number has a scaling factor of 1000. What value is stored such that the interpretation is 0.01?
+ans- 10
+
+
+
+
+Question 3
+Our fixed-point number has a scaling factor of 1e9. What value is stored such that the interpretation is 0.03443?
+ans-34430000
+
+
+
+
+Question 4
+Our fixed-point number has a scaling factor of 1e18. What value is stored such that the interpretation is 1?
+ans- 100000000000000000  or   1 * 10 ^18
+
+
+
+
+Question 5
+Our fixed-point number has a scaling factor of 1e27. What value is stored such that the interpretation is 0.000000000679?
+answer- 1 * 10^ 15

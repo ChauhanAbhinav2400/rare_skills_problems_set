@@ -1,0 +1,52 @@
+==========================================================================================
+Adding an integer to a fixed-point number to get a fixed-point number
+==========================================================================================
+Description
+Atomic Knowledge
+When we add an integer to a fixed-point number, and we want the output to be a fixed point number, we must first convert the integer to a fixed-point number, then add the two fixed point numbers together.
+
+Example:
+
+Let `a` be a fixed-point number 1.78 with scaling factor 10¹⁸. Let `b` be the integer 100. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10¹⁸, what is the stored value of the result?
+
+Answer:
+
+101780000000000000000
+
+We computed this as 1.78 × 10¹⁸ + 100 × 10¹⁸ = 101780000000000000000
+
+Note that the interpreted value is 101.78, as we would expect from adding 1.78 + 10
+==========================================================================================
+
+Question 1
+Let `a` be a fixed-point number 0.1 with scaling factor 10¹⁸. Let `b` be the integer 1. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10¹⁸, what is the stored value of the result?
+answer-1100000000000000000
+
+
+
+
+Question 2
+Let `a` be a fixed-point number 47.48 with scaling factor 10⁶. Let `b` be the integer 10. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10⁶, what is the stored value of the result?
+answer-57480000
+
+
+
+
+Question 3
+Let `a` be a fixed-point number 24 with scaling factor 10⁶. Let `b` be the integer 10. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10⁶, what is the stored value of the result?
+
+
+
+
+
+
+Question 4
+Let `a` be a fixed-point number 2.4 with scaling factor 10⁹. Let `b` be the integer 3. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10⁹, what is the stored value of the result?
+
+
+
+
+
+Question 5
+Let `a` be a fixed-point number 200.1 with scaling factor 10¹⁵. Let `b` be the integer 10. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10¹⁵, what is the stored value of the result?Question 5
+Let `a` be a fixed-point number 200.1 with scaling factor 10¹⁵. Let `b` be the integer 10. If we add `a` and `b` together and represent the sum as a fixed-point number with a scaling factor of 10¹⁵, what is the stored value of the result?

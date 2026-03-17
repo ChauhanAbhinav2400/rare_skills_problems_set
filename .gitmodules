@@ -1,0 +1,15 @@
+[submodule "ERC20/lib/forge-std"]
+	path = ERC20/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "solidity_projects/lib/forge-std"]
+	path = solidity_projects/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "solidity_projects/lib/openzeppelin-contracts"]
+	path = solidity_projects/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "solidity_projects/lib/solady"]
+	path = solidity_projects/lib/solady
+	url = https://github.com/Vectorized/solady
+[submodule "contract_interactions/lib/openzeppelin-contracts"]
+	path = contract_interactions/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

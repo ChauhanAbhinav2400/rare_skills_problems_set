@@ -78,10 +78,11 @@ contract Vault is ERC20("LPSHARE", "LP") {
         uint256 totalShares =  totalSupply();
         uint256 sharesToMint;
         if(totalSupply() == 0){
-            sharesToMint = amountAssest;
+            sharesToMint = amountAsset;
+        }else{
+             sharesToMint = (amountAsset * totalShares) / totalAssest ;
         }
-
-        uint256 sharesToMint = amountAsset / sharePrice;
+        
         return sharesToMint;
     }
 
@@ -94,8 +95,10 @@ contract Vault is ERC20("LPSHARE", "LP") {
         if(totalSupply() == 0 ) {
             return amountShares;
         }
-        uint256 sharePrice = assetToken.balanceOf(address(this)) / totalSupply();
-        uint256 assestOut = amountShares * sharePrice;
+
+        uint256 totalAssest = assetToken.balanceOf(address(this));
+        uint256 totalShares = totalSupply();
+        uint256 assestOut = (amountShares * totalAssest ) / totalShares ;
         return assestOut;
     }
 }

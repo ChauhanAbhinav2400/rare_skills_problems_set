@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -14,7 +14,7 @@ contract Vault is ERC20("LPSHARE", "LP") {
     event Burn(address indexed from, uint256 amountAsset, uint256 shares);
 
     error Slippage();
-
+    error InsufficientBalance();
     constructor(IERC20 _assetToken) {
         assetToken = _assetToken;
     }
@@ -27,6 +27,23 @@ contract Vault is ERC20("LPSHARE", "LP") {
      */
     function deposit(uint256 amountAsset, uint256 minSharesOut) external {
         // your code here
+        uint256 totalAssest = assetToken.balanceOf(address(this));
+        uint256 totalShares =  totalSupply();
+         uint256  sharesToMint;
+        if(totalSupply() == 0 ){
+        sharesToMint = amountAsset;
+        } else {
+         sharesToMint = amountAsset * totalShares / totalAssest;
+         bool invariant = (amountAsset * totalShares ) >= ( sharesToMint * totalAssest );
+         if(!invariant) revert();
+        }
+
+        if(sharesToMint < minSharesOut) revert Slippage();
+          assetToken.safeTransferFrom(msg.sender, address(this),amountAsset);
+          _mint(msg.sender,sharesToMint);
+            
+            emit Mint(msg.sender,amountAsset,sharesToMint);
+       
     }
 
     /*
@@ -37,6 +54,18 @@ contract Vault is ERC20("LPSHARE", "LP") {
      */
     function withdraw(uint256 amountShares, uint256 minAssetOut) external {
         // your code here
+        uint256 totalAssest = assetToken.balanceOf(address(this));
+        uint256 totalShares =  totalSupply();
+        uint256 assestOut = (amountShares * totalAssest) / totalShares;
+
+        if(assestOut < minAssetOut) revert Slippage();
+        if(balanceOf(msg.sender) < amountShares ) revert InsufficientBalance();
+        bool invariant = (assestOut * totalShares ) <= ( amountShares * totalAssest );
+        if(!invariant) revert();
+            assetToken.safeTransfer(msg.sender, assestOut);
+            _burn(msg.sender, amountShares);
+            emit Burn(msg.sender,assestOut , amountShares );
+        
     }
 
     /*
@@ -45,6 +74,15 @@ contract Vault is ERC20("LPSHARE", "LP") {
      */
     function convertToShares(uint256 amountAsset) public view returns (uint256) {
         // your code here
+         uint256 totalAssest = assetToken.balanceOf(address(this));
+        uint256 totalShares =  totalSupply();
+        uint256 sharesToMint;
+        if(totalSupply() == 0){
+            sharesToMint = amountAssest;
+        }
+
+        uint256 sharesToMint = amountAsset / sharePrice;
+        return sharesToMint;
     }
 
     /*
@@ -53,5 +91,11 @@ contract Vault is ERC20("LPSHARE", "LP") {
      */
     function convertToAssets(uint256 amountShares) public view returns (uint256) {
         // your code here
+        if(totalSupply() == 0 ) {
+            return amountShares;
+        }
+        uint256 sharePrice = assetToken.balanceOf(address(this)) / totalSupply();
+        uint256 assestOut = amountShares * sharePrice;
+        return assestOut;
     }
 }

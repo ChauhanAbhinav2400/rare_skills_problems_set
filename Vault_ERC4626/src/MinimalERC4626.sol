@@ -13,7 +13,36 @@ contract MinimalERC4626 is ERC4626 {
 
     // _decimalsOffset() is 0 by default
 
-    // function _decimalsOffset() internal view override returns (uint8) {
-    //     return 1;
-    // }
+    function _decimalsOffset() internal view override returns (uint8) {
+        return 3;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

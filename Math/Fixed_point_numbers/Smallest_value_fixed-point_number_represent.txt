@@ -33,17 +33,18 @@ When choosing a scaling factor, you must ensure it provides enough precision for
 
 Question 1
 What is the smallest number a fixed-point number with a scaling factor of 1e18 can hold? Answer as a decimal number.
-
+answer - 0.000000000000000001
 
 
 
 Question 2
 What is the smallest number a fixed-point number with a scaling factor of 1e4 can hold? Answer as a decimal number.
-
+answer - 0.0001
 
 
 Question 3
 What is the smallest number a fixed-point number with a scaling factor of 1e15 can hold? Answer as a decimal number.
+answer - 0.00000000000001
 
 
 
@@ -53,7 +54,7 @@ What is the smallest number a fixed-point number with a scaling factor of 1e15 c
 
 Question 4
 What is the smallest number a fixed-point number with a scaling factor of 1e8 can hold? Answer as a decimal number.
-
+answer- 0.00000001
 
 
 
@@ -62,3 +63,4 @@ What is the smallest number a fixed-point number with a scaling factor of 1e8 ca
 
 Question 5
 What is the smallest number a fixed-point number with a scaling factor of 1e10 can hold? Answer as a decimal number.
+answer - 0.0000000001

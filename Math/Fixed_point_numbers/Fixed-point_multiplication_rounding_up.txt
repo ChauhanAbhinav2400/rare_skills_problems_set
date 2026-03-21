@@ -1,0 +1,86 @@
+====================================================================================
+Fixed-point multiplication rounding up
+====================================================================================
+Description
+Fixed-point Multiplication Rounding Up
+When we multiply two fixed-point numbers together, the result is rounded down if the product does not perfectly divide the scaling factor.
+
+For example, if our fixed-point numbers have a scaling factor of 100, then if we multiply 1.66 * 1.33 we get 2.2087. However, the final result will be 2.20 because we only store two decimals.
+
+Thus, the product was rounded down.
+
+When to Round Up
+As noted in the lesson on division rounding up, it is sometimes desirable to slightly overestimate quantities rather than underestimate them. For example, we want to slightly overestimate the amount a borrower owes to a protocol so the protocol doesn't lose money.
+
+The Formula
+Thus, if we want to multiply two fixed-point numbers together and round the result up, we use the following method:
+
+divUp(storedValue_x * storedValue_y, scalingFactor);
+
+Examples
+Example 1: 1.66 and 1.33 are fixed-point numbers with a scaling factor of 100. What is the represented value of their product, rounded up?
+
+Answer: 2.21
+
+The stored values of x and y are 166 and 133, respectively. Their product is 22078. When we divide the product by 100, we get 220 with a remainder of 78. Since the remainder is non-zero, we add 1 to the result and get 221. We then divide the stored value by the scaling factor to get the represented value of 2.21
+
+Example 2: 0.01 and 0.05 are fixed-point numbers with scaling factor of 100. What is the represented value of their product, rounded up?
+
+Answer: 0.01
+
+The stored values are 1 and 5, and the product is 5. When we divide by 100, we get 0, but rounded up, we get 1. When scaled, the represented value is 0.01.
+
+Example 3: 0.00 and 0.05 are fixed-point numbers with a scaling factor of 100. What is the represented value of their product, rounded up?
+
+Answer: 0
+
+0 / 100 has a remainder of zero, so we do not round it up.
+
+Example 4: 10.0 and 20.0 are fixed-point numbers with scaling factor of 100. What is the represented value of their product, rounded up?
+
+Answer: 200
+
+10 * 20 = 200. 200 is divisible by 100 (remainder is 0), so we do not round the result up.
+====================================================================================
+
+
+Question 1
+0.001 and 5500.05 are fixed-point numbers with a scaling factor of 1000. What is the represented value of their product, rounded up?
+answer-
+
+
+
+
+
+
+
+Question 2
+0.02 and 500 are fixed-point numbers with a scaling factor of 1e8. What is the represented value of their product, rounded up?
+answer- 
+
+
+
+
+
+Question 3
+0.000001 and 0.000002 are fixed-point numbers with a scaling factor of 1e6. What is the represented value of their product, rounded up?
+answer- 
+
+
+
+
+
+
+
+Question 4
+0.3 and 0.5 are fixed-point numbers with a scaling factor of 1e18. What is the represented value of their product, rounded up?
+answer-
+
+
+
+
+
+
+Question 5
+0.01 and 3.14159 are fixed-point numbers with a scaling factor of 1e18. What is the represented value of their product, rounded up?
+answer-

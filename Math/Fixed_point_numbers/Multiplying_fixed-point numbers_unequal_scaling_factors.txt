@@ -1,0 +1,76 @@
+=========================================================================================
+Multiplying fixed-point numbers with unequal scaling factors
+====================================================================================
+Description
+Multiplying Fixed-point Numbers with Unequal Scaling Factors
+When multiplying two fixed-point numbers with different scaling factors, the raw product has an effective scaling factor equal to the product of the two input scaling factors.
+
+To get a result with a specific target scaling factor, we must cancel out the effective scaling factor, then multiply the result by the desired scaling factor.
+
+The Formula
+If x has scaling factor Fx and y has scaling factor Fy, then x * y has effective scaling factor Fx * Fy.
+
+To get a result with scaling factor F_target, we compute:
+
+(x * y * F_target) / (F1 * F2)
+
+Example 1
+Consider the following example:
+
+x is 1.0 with a scaling factor of 1e15. x_stored has value 1e15
+y is 1.0 with a scaling factor of 1e18. y_stored has value 1e18
+We want the product z to be a fixed-point number with a scaling factor of 1e16.
+
+x * y * 1e16 / (1e15 * 1e18) = 1e15 * 1e18 * 1e16 / (1e15 * 1e18) = 1e16
+
+Effectively, we multiply x * y with 1e16 / (1e33). If we were to write that as code, it would be:
+
+x * y / 1e17;
+
+Example 2
+x is a fixed-point number with a scaling factor of 1e6. y is a fixed-point number with a scaling factor of 1e8.
+
+Write code to compute the product of x and y and produce the result as a 1e18 fixed-point number.
+
+Answer: x * y * 1e4;
+
+The product x and y has an effective scaling factor of 1e14, but our target is 1e18, so we multiply by 1e4;
+
+Note
+In the problems below, use scientific notation. If no scaling adjustment is needed, write just the multiplication. Don't forget the semicolon at the end.
+====================================================================================
+
+
+Question 1
+`x` is a fixed-point number with a scaling factor of 1e20. `y` is a fixed-point number with a scaling factor of 1e10. We want to multiply `x` and `y` and get a fixed-point number with a scaling factor of 1e18. Write the code that accomplishes this. Use scientific notation for constants and don't forget the semicolon.
+answer- x*y/1e12;
+
+
+
+Question 2
+`x` is a fixed-point number with a scaling factor of 1e15. `y` is a fixed-point number with a scaling factor of 1e12. We want to multiply `x` and `y` and get a fixed-point number with a scaling factor of 1e18. Write the code that accomplishes this. Use scientific notation for constants and don't forget the semicolon.
+answer- x*y/1e9;
+
+
+
+
+
+Question 3
+`x` is a fixed-point number with a scaling factor of 1e8. `y` is a fixed-point number with a scaling factor of 1e6. We want to multiply `x` and `y` and get a fixed-point number with a scaling factor of 1e18. Write the code that accomplishes this. Use scientific notation for constants and don't forget the semicolon.
+answer- x*y*1e4;
+
+
+
+
+
+Question 4
+`x` is a fixed-point number with a scaling factor of 1e18. `y` is a fixed-point number with a scaling factor of 1e18. We want to multiply `x` and `y` and get a fixed-point number with a scaling factor of 1e18. Write the code that accomplishes this. Use scientific notation for constants and don't forget the semicolon.
+answer- x*y / 1e18;
+
+
+
+
+
+Question 5
+`x` is a fixed-point number with a scaling factor of 1e12. `y` is a fixed-point number with a scaling factor of 1e8. We want to multiply `x` and `y` and get a fixed-point number with a scaling factor of 1e20. Write the code that accomplishes this. Use scientific notation for constants and don't forget the semicolon.
+answer-x*y;

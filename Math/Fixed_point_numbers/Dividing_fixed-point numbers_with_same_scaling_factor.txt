@@ -47,7 +47,7 @@ The exact represented value should be (10 / 30) = 0.333..., but we get 33/100 = 
 
 Question 1
 Fixed-point number `x` has a stored value of 10000000000000000000 with scaling factor 1e18. Fixed-point number `y` has a stored value of 4000000000000000000 with scaling factor 1e18. What is the stored value of x divided by y, with the result having scaling factor 1e18?
-
+answer1- 
 
 
 

@@ -1,0 +1,88 @@
+========================================================================================
+Dividing fixed-point numbers with the same scaling factor
+========================================================================================
+Description
+Dividing Fixed-point Numbers with the Same Scaling Factor
+When dividing two fixed-point numbers with the same scaling factor to produce a fixed-point number with the same scaling factor, we must multiply the numerator by the scaling factor before dividing.
+
+Recall that for a fixed-point number: RepresentedValue = StoredValue / ScalingFactor
+
+The Mathematical Derivation
+Let StoredX and StoredY be the stored values, both with scaling factor F. Their represented values are:
+
+RepresentedX = StoredX / F
+RepresentedY = StoredY / F
+When dividing RepresentedX by RepresentedY: RepresentedX / RepresentedY = (StoredX / F) / (StoredY / F) = (StoredX / F) * (F / StoredY) = StoredX / StoredY
+
+The Formula
+To store this result with scaling factor F, we need: StoredResult = (RepresentedX / RepresentedY) * F = (StoredX / StoredY) * F
+
+Therefore, since we multiply before we divide, we have: StoredResult = (StoredX * F) / StoredY
+
+Examples
+Example 1: Fixed-point number x has a stored value of 5000000000000000000 with scaling factor 1e18. Fixed-point number y has a stored value of 2000000000000000000 with scaling factor 1e18. What is the stored value of x divided by y, with the result having scaling factor 1e18?
+
+Answer: 2500000000000000000
+
+This is computed as (5000000000000000000 * 1e18) / 2000000000000000000 = 2500000000000000000
+
+The represented values are 5 / 2 = 2.5, and 2500000000000000000 / 1e18 = 2.5
+
+Example 2: Fixed-point number x has a stored value of 3000 with scaling factor 100. Fixed-point number y has a stored value of 1500 with scaling factor 100. What is the stored value of x divided by y, with the result having scaling factor 100?
+
+Answer: 200
+
+This is computed as (3000 * 100) / 1500 = 200
+
+The represented values are 30 / 15 = 2, and 200 / 100 = 2
+
+Important Notes
+IMPORTANT: Division rounds down in Solidity. When the numerator (after multiplication by F) is not perfectly divisible by the denominator, precision is lost.
+
+Example with precision loss: StoredX = 1000, StoredY = 3000, F = 100 Result = (1000 * 100) / 3000 = 100000 / 3000 = 33
+
+The exact represented value should be (10 / 30) = 0.333..., but we get 33/100 = 0.33
+========================================================================================
+
+
+Question 1
+Fixed-point number `x` has a stored value of 10000000000000000000 with scaling factor 1e18. Fixed-point number `y` has a stored value of 4000000000000000000 with scaling factor 1e18. What is the stored value of x divided by y, with the result having scaling factor 1e18?
+
+
+
+
+
+
+
+Question 2
+Fixed-point number `x` has a stored value of 6000000 with scaling factor 1e6. Fixed-point number `y` has a stored value of 3000000 with scaling factor 1e6. What is the stored value of x divided by y, with the result having scaling factor 1e6?
+
+
+
+
+
+
+Question 3
+Fixed-point number `x` has a stored value of 1500 with scaling factor 1000. Fixed-point number `y` has a stored value of 500 with scaling factor 1000. What is the stored value of x divided by y, with the result having scaling factor 1000?
+
+
+
+
+
+
+
+
+Question 4
+Fixed-point number `x` has a stored value of 1000000000000000000 with scaling factor 1e18. Fixed-point number `y` has a stored value of 3000000000000000000 with scaling factor 1e18. What is the stored value of x divided by y, with the result having scaling factor 1e18?
+
+
+
+
+
+
+
+
+
+
+Question 5
+Fixed-point number `x` has a stored value of 7500000000000000000 with scaling factor 1e18. Fixed-point number `y` has a stored value of 2500000000000000000 with scaling factor 1e18. What is the stored value of x divided by y, with the result having scaling factor 1e18?

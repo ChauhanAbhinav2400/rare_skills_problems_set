@@ -6,7 +6,7 @@ import { IMorpho, MarketParams } from "morpho-blue/src/interfaces/IMorpho.sol";
 
 /**
  * PUZZLE: Borrow from Morpho Blue
- * 
+
  * SCENARIO:
  * You have 10 WETH in this contract.
  * You want to borrow USDT against your WETH collateral using Morpho Blue.
@@ -54,5 +54,24 @@ contract Borrow {
      */
     function addCollateralAndBorrow(uint256 collateralAmount, uint256 borrowAmount) external {
         // Add your code here
+      address collateralToken =  marketParams.collateralToken;
+
+      IERC20(collateralToken).approve(address(morpho),collateralAmount);
+
+      morpho.supplyCollateral(
+        marketParams,
+        collateralAmount,
+        address(this),
+        ""
+      );
+
+      morpho.borrow(
+        marketParams,
+        borrowAmount,
+        0,
+        address(this),
+        address(this)
+      );
+
     }
 }

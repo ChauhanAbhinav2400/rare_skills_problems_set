@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import { IMorpho } from "morpho-blue/src/interfaces/IMorpho.sol";
+import { IMorpho} from "morpho-blue/src/interfaces/IMorpho.sol";
 import { IMorphoFlashLoanCallback } from "morpho-blue/src/interfaces/IMorphoCallbacks.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 

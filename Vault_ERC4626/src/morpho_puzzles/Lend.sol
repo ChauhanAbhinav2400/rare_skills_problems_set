@@ -46,5 +46,9 @@ contract Lend {
      */
     function supplyAsset(uint256 amount) external {
         // Add your code here
+        address asset = vault.asset();
+
+        IERC20(asset).approve(address(vault),amount);
+        vault.deposit(amount,address(this));
     }
 }

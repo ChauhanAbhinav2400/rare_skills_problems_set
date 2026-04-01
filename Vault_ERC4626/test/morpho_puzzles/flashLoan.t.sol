@@ -3,7 +3,7 @@ pragma solidity ^0.8.25;
 
 import "forge-std/Test.sol";
 
-import { FlashLoan } from "../src/FlashLoan.sol";
+import { FlashLoan } from "../../src/morpho_puzzles/FlashLoan.sol";
 import { IMorpho } from "morpho-blue/src/interfaces/IMorpho.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 

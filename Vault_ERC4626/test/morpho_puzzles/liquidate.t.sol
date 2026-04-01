@@ -2,7 +2,7 @@
 pragma solidity ^0.8.25;
 
 import "forge-std/Test.sol";
-import { Liquidate } from "../src/Liquidate.sol";
+import { Liquidate } from "../../src/morpho_puzzles/Liquidate.sol";
 import { IMorpho, MarketParams, Id, Position } from "morpho-blue/src/interfaces/IMorpho.sol";
 import { MarketParamsLib } from "morpho-blue/src/libraries/MarketParamsLib.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";

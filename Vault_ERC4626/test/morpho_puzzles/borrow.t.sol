@@ -3,7 +3,7 @@ pragma solidity ^0.8.25;
 
 import "forge-std/Test.sol";
 
-import { Borrow } from "../src/Borrow.sol";
+import { Borrow } from "../../src/morpho_puzzles/Borrow.sol";
 import { IMorpho, MarketParams, Id, Position } from "morpho-blue/src/interfaces/IMorpho.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { MorphoBalancesLib } from "morpho-blue/src/libraries/periphery/MorphoBalancesLib.sol";

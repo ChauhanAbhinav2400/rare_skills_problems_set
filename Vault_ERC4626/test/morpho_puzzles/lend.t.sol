@@ -2,7 +2,7 @@
 pragma solidity ^0.8.25;
 
 import "forge-std/Test.sol";
-import { Lend } from "../src/Lend.sol";
+import { Lend } from "../../src/morpho_puzzles/Lend.sol";
 import { IVaultV2 } from "@morpho-org/vault-v2/src/interfaces/IVaultV2.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 

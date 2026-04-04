@@ -65,5 +65,19 @@ contract Liquidate {
         uint256 amountToRepay
     ) external {
         // Add your code here
+
+        address loanToken = marketParams.loanToken;
+
+        // Approve Morpho to spend USDC to repay the borrower's debt
+        IERC20(loanToken).approve(address(morpho), amountToRepay);
+
+        // Call Morpho's liquidate function
+        morpho.liquidate(
+               marketParams,
+               borrower,
+               0, // auto-calc collateral to seize
+               amountToRepay, // treated as assets internally
+               ""
+        );
     }
 }

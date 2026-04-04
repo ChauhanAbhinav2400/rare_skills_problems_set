@@ -41,6 +41,7 @@ import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * Morpho Blue flash loans are fee-free, so you only need to repay
  * the exact amount borrowed.
  */
+
 contract FlashLoan is IMorphoFlashLoanCallback {
     IMorpho public immutable morpho;
 
@@ -54,7 +55,7 @@ contract FlashLoan is IMorphoFlashLoanCallback {
         morpho.flashLoan(token, assets, data);
     }
 
-    /**
+    /**3
      * @notice Callback function called by Morpho during the flash loan.
      * After this function executes, the flash loan should complete without reverting.
      * 
@@ -63,5 +64,9 @@ contract FlashLoan is IMorphoFlashLoanCallback {
      */
     function onMorphoFlashLoan(uint256 assets, bytes calldata data) external override {
         // Add your code here
+        address token = abi.decode(data,(address));
+
+        // Approve Morpho to pull the borrowed amount back
+        IERC20(token).approve(address(morpho), assets);
     }
 }

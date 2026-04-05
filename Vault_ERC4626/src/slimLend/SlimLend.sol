@@ -84,7 +84,22 @@ contract SlimLend is ERC20("LPSlimShares", "LPS") {
     }
 
     function _updateSharePrices() internal {
+     
+     uint256 timeElasped = block.timestamp - lastUpdateTime;
+     uint256 util = utilization();
+     (uint256 borrowerRate , uint256 lenderRate) = interestRate(util);
 
+     // update borrower share price
+     borrowerSharePrice = borrowerSharePrice * (WAD + (borrowerRate * timeElasped)) / WAD;
+
+     // update lp share price
+     lpSharePrice = lpSharePrice * (WAD +  (lenderRate * timeElasped)) / WAD;
+
+     // update total Borrowed 
+     totalBorrowedTokens  = (totalBorrowedTokens * (WAD + (borrowerRate * timeElasped))) / WAD;
+
+     lastUpdateTime = block.timestamp;
+    
     }
 
     /*
@@ -93,7 +108,21 @@ contract SlimLend is ERC20("LPSlimShares", "LPS") {
      * @param minSharesOut The minimum amount of LP shares to receive (slippage protection)
      */
     function lpDepositAsset(uint256 amount, uint256 minSharesOut) public {
+     
 
+     _updateSharePrices();
+
+     assetToken.safeTransferFrom(msg.sender , address(this),amount);
+
+     uint256 sharesToMint = (amount * WAD) / lpSharePrice;
+
+     if(sharesToMint < minSharesOut){
+        revert Slippage();
+     }
+
+     _mint(msg.sender,sharesToMint);
+     totalDepositedTokens += amount;
+     emit LPDeposit(msg.sender, amount, sharesToMint);
     }
 
     /*
@@ -102,6 +131,9 @@ contract SlimLend is ERC20("LPSlimShares", "LPS") {
      * @param minAmountAssetOut The minimum amount of asset token to receive (slippage protection)
      */
     function lpRedeemShares(uint256 amountShares, uint256 minAmountAssetOut) public {
+     
+     
+
 
     }
 

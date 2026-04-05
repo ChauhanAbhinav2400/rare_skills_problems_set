@@ -25,7 +25,7 @@ contract SlimLend is ERC20("LPSlimShares", "LPS") {
     uint256 constant LIQUIDATION_THRESHOLD = 1.1e18;
     uint256 constant OPTIMAL_UTILIZATION = 0.95e18;
     uint256 constant KINK_INTEREST_PER_SECOND = 1585489599; // see test for derivation
-    uint256 constant MAX_INTEREST_PER_SECOND = 15854895991; // see test for derivation
+    uint256 constant MAX_INTEREST_PER_SECOND =  15854895991; // see test for derivation
 
     error Slippage();
     error InsufficientLiquidity();
@@ -72,7 +72,15 @@ contract SlimLend is ERC20("LPSlimShares", "LPS") {
      * @return lenderRate The interest rate earned by lenders with 18 decimals
      */
     function interestRate(uint256 _utilization) public pure returns (uint256 borrowerRate, uint256 lenderRate) {
-        return (0, 0); // dummy for compilation
+       if(_utilization <= OPTIMAL_UTILIZATION) {
+        borrowerRate = (_utilization * KINK_INTEREST_PER_SECOND) / OPTIMAL_UTILIZATION;
+       }else{
+        uint256 excessUtils = _utilization - OPTIMAL_UTILIZATION;
+        uint256 remaining = WAD - OPTIMAL_UTILIZATION;
+        uint256 extra = (excessUtils * (MAX_INTEREST_PER_SECOND - KINK_INTEREST_PER_SECOND )) / remaining;
+        borrowerRate = KINK_INTEREST_PER_SECOND + extra; 
+       }
+       lenderRate = (borrowerRate * _utilization) / WAD;
     }
 
     function _updateSharePrices() internal {

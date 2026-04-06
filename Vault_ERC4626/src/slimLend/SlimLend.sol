@@ -171,24 +171,29 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @param amount The amount of collateral token to withdraw
      */
     function borrowerWithdrawCollateral(uint256 amount) public {
-    require(borrowerInfo[msg.sender].collateralTokenAmount >= amount, "Not enough collateral to withdraw");
+       
+    BorrowerInfo storage user = borrowerInfo[msg.sender];
+    require(user.collateralTokenAmount >= amount, InsufficientCollateral());
+    _updateSharePrices();
 
-   BorrowerInfo storage user = borrowerInfo[msg.sender];
-   uint256 debt = (user.borrowerShares * borrowerSharePrice) / WAD;
-   uint256 oldCollateralAmount = user.collateralTokenAmount;
+    uint256 debt = (user.borrowerShares * borrowerSharePrice) / WAD;
+    uint256 oldCollateralAmount = user.collateralTokenAmount;
+
     uint256 newCollateralAmount = oldCollateralAmount - amount;
     user.collateralTokenAmount = newCollateralAmount;
     uint256 collateralValueAfter = collateralValue(msg.sender);
     user.collateralTokenAmount = oldCollateralAmount; // revert state change for collateral amount to do the check
+
     if(debt > 0 && collateralValueAfter > 0) {
      uint256 ratio = (collateralValueAfter * WAD ) / debt;
      if(ratio < MIN_COLLATERALIZATION_RATIO) {
         revert MinCollateralization();
     }
+    }
+
     user.collateralTokenAmount = newCollateralAmount; // update collateral amount after checks
     collateralToken.safeTransfer(msg.sender,amount);
     emit WithdrawCollateral(msg.sender, amount);
-    }
 
     }
 
@@ -216,10 +221,18 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @notice Calculate the collateralization ratio of a borrower
      * @param borrower The address of the borrower to check
      * @return The collateralization ratio (collateral value / debt value) with 18 decimals
-     *         If the borrower has no debt, returns type(uint256).max
+     * If the borrower has no debt, returns type(uint256).max
      */
-    function collateralization_ratio(address borrower) public view returns (uint256) {
-        return 0; // compilation dummy
+
+        function collateralization_ratio(address borrower) public view returns (uint256){
+        BorrowerInfo memory user = borrowerInfo[borrower];
+        if(user.borrowerShares == 0) {
+            return type(uint256).max;   
+        }
+        uint256 debt = (user.borrowerShares * borrowerSharePrice) / WAD;
+        uint256 collateralVal = collateralValue(borrower);
+        return (collateralVal * WAD ) / debt;   
+
     }
 
     /*

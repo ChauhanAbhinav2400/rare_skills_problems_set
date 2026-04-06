@@ -132,8 +132,25 @@ contract SlimLend is ERC20("LPSlimShares", "LPS") {
      */
     function lpRedeemShares(uint256 amountShares, uint256 minAmountAssetOut) public {
      
-     
+        _updateSharePrices();
+     uint256 balance = balanceOf(msg.sender);
+     require(balance >= amountShares);
 
+     uint256 amountOut = (amountShares * lpSharePrice) / WAD;
+     if(amountOut < minAmountAssetOut ) {
+        revert Slippage();
+     } 
+     uint256 availableLiquidity = totalDepositedTokens - totalBorrowedTokens;
+       if(amountOut > availableLiquidity) {
+        revert("insufficient liquidity");
+     }
+
+     _burn(msg.sender,amountShares);
+     totalDepositedTokens -= amountOut;
+     assetToken.safeTransfer(msg.sender,amountOut);
+    
+emit LPRedeem(msg.sender, amountShares, amountOut);
+     
 
     }
 

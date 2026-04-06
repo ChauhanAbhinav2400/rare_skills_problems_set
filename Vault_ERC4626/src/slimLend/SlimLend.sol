@@ -159,8 +159,11 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @param amount The amount of collateral token to deposit
      */
     function borrowerDepositCollateral(uint256 amount) public {
-
-    }
+    
+    collateralToken.safeTransferFrom(msg.sender , address(this),amount);
+    borrowerInfo[msg.sender].collateralTokenAmount += amount;
+    emit DepositCollateral(msg.sender, amount);
+}
 
     /*
      * @notice Withdraw collateral token. Cannot withdraw if it would cause the borrower's
@@ -168,6 +171,24 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @param amount The amount of collateral token to withdraw
      */
     function borrowerWithdrawCollateral(uint256 amount) public {
+    require(borrowerInfo[msg.sender].collateralTokenAmount >= amount, "Not enough collateral to withdraw");
+
+   BorrowerInfo storage user = borrowerInfo[msg.sender];
+   uint256 debt = (user.borrowerShares * borrowerSharePrice) / WAD;
+   uint256 oldCollateralAmount = user.collateralTokenAmount;
+    uint256 newCollateralAmount = oldCollateralAmount - amount;
+    user.collateralTokenAmount = newCollateralAmount;
+    uint256 collateralValueAfter = collateralValue(msg.sender);
+    user.collateralTokenAmount = oldCollateralAmount; // revert state change for collateral amount to do the check
+    if(debt > 0 && collateralValueAfter > 0) {
+     uint256 ratio = (collateralValueAfter * WAD ) / debt;
+     if(ratio < MIN_COLLATERALIZATION_RATIO) {
+        revert MinCollateralization();
+    }
+    user.collateralTokenAmount = newCollateralAmount; // update collateral amount after checks
+    collateralToken.safeTransfer(msg.sender,amount);
+    emit WithdrawCollateral(msg.sender, amount);
+    }
 
     }
 
@@ -185,7 +206,10 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @return The dollar value of the borrower's collateral in asset token with 18 decimals
      */
     function collateralValue(address borrower) public view returns (uint256) {
-        return 0; // compilation dummy
+       BorrowerInfo memory user = borrowerInfo[borrower];
+       (,int256 price,,,) = priceFeed.latestRoundData();
+       uint256 decimals = priceFeed.decimals();
+       return (user.collateralTokenAmount * uint256(price) ) / (10 ** decimals);
     }
 
     /*

@@ -202,14 +202,28 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @param amount The amount of asset token to borrow
      */
     function borrow(uint256 amount) public {
+    _updateSharePrices();
 
+    uint256 availableLiquidity = totalDepositedTokens - totalBorrowedTokens;
+    if(amount > availableLiquidity) {
+        revert InsufficientLiquidity();
     }
+    uint256 sharesToMint = amount * WAD / borrowerSharePrice;
+    borrowerInfo[msg.sender].borrowerShares += sharesToMint;
+    totalBorrowedTokens += amount;
+    assetToken.safeTransfer(msg.sender , amount);
 
+    uint256 ratio = collateralization_ratio(msg.sender);
+    if(ratio < MIN_COLLATERALIZATION_RATIO) {
+        revert MinCollateralization();
+    }
+    emit Borrow(msg.sender,amount);
     /*
      * @notice Calculate the value of a borrower's collateral in asset token
      * @param borrower The address of the borrower to check
      * @return The dollar value of the borrower's collateral in asset token with 18 decimals
      */
+    }
     function collateralValue(address borrower) public view returns (uint256) {
        BorrowerInfo memory user = borrowerInfo[borrower];
        (,int256 price,,,) = priceFeed.latestRoundData();
@@ -241,12 +255,31 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @param minBorrowSharesBurned The minimum amount of borrower shares to burn (slippage protection)
      */
     function repay(uint256 amountAsset, uint256 minBorrowSharesBurned) public {
-        
+        _updateSharePrices();
+
+        BorrowerInfo storage user = borrowerInfo[msg.sender];
+        uint256 borrowerShares = user.borrowerShares;
+
+        uint256 debt = (borrowerShares * borrowerSharePrice) / WAD;
+        uint256 repayAmount = amountAsset;    
+
+        uint256 sharesToBurn = (repayAmount * WAD) / borrowerSharePrice;
+        if(sharesToBurn < minBorrowSharesBurned) {
+            revert Slippage();
+        }
+        if(sharesToBurn > borrowerShares) {
+            sharesToBurn = borrowerShares;
+        }
+       borrowerInfo[msg.sender].borrowerShares -= sharesToBurn;
+       totalBorrowedTokens = _subFloorZero(totalBorrowedTokens, repayAmount);
+       assetToken.safeTransferFrom(msg.sender,address(this),repayAmount);
+
+       emit Repay(msg.sender, repayAmount);
     }
 
     // if x < y return 0, else x - y
     function _subFloorZero(uint256 x, uint256 y) internal pure returns (uint256) {
-        return 0; // compilation
+        return x > y ? x-y : 0 ;// compilation
     }
 
     /* 
@@ -255,7 +288,8 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @return True if the borrower can be liquidated, false otherwise
      */
     function canLiquidate(address borrower) public view returns (bool) {
-        return false; // compilation
+        uint256 ratio = collateralization_ratio(borrower);
+        return ratio < LIQUIDATION_THRESHOLD;
     }
 
     /*
@@ -267,6 +301,24 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
      * @param borrower The addres vs of the borrower to liquidate
      */
     function liquidate(address borrower) public {
+        bool canBeLiquidated = canLiquidate(borrower);
+
+        if(!canBeLiquidated) {
+            revert HealthyAccount();
+        }
         
+        BorrowerInfo storage user = borrowerInfo[borrower];
+        uint256 debt = (user.borrowerShares * borrowerSharePrice) / WAD;
+        assetToken.safeTransferFrom(msg.sender,address(this),debt); 
+
+        uint256 collateralOut = debt * LIQUIDATION_THRESHOLD / WAD; 
+        if(collateralOut > user.collateralTokenAmount) {
+            collateralOut = user.collateralTokenAmount;
+        }
+        user.borrowerShares = 0;
+        totalBorrowedTokens = _subFloorZero(totalBorrowedTokens, debt);
+        user.collateralTokenAmount -= collateralOut;
+        collateralToken.safeTransfer(msg.sender,collateralOut);
+
     }
 }

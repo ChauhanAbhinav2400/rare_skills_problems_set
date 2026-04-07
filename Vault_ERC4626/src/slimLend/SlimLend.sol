@@ -319,6 +319,6 @@ emit LPRedeem(msg.sender, amountShares, amountOut);
         totalBorrowedTokens = _subFloorZero(totalBorrowedTokens, debt);
         user.collateralTokenAmount -= collateralOut;
         collateralToken.safeTransfer(msg.sender,collateralOut);
-
+       emit Liquidate(msg.sender, borrower, debt);
     }
 }

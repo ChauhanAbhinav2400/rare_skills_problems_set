@@ -148,7 +148,7 @@ constructor (IERC20 _depositToken, IERC20 _rewardToken) {
      * @param debt a cancellation factor to ensure that new deposits don't earn stake on the same block
      * @dev be sure to compute rewards before updating their balance during deposit/withdraw!
      * @dev this function must always return zero on the same block after a deposit or withdraw
-     * @dev this function must never revert
+     * @dev this function must never revert28
      */
     function _computeRewards(uint256 balance, uint256 debt, uint256 _accumulatedRewardsPerDepositTokenWAD) internal pure returns (uint256) {
     // balance * accRPS - debt

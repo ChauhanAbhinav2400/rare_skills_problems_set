@@ -76,7 +76,7 @@ contract FlashLoanTest is Test {
         assertEq(
             USDC.balanceOf(address(flashLoan)),
             0,
-            "Contract should not retain funds"
+            "Contract should not retain funds"/
         );
     }
 

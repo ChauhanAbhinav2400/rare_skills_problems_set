@@ -1,0 +1,48 @@
+==========================================================================================
+Increasing the scale of a fixed-point number
+========================================================================================
+Description
+Atomic Knowledge
+Suppose we have a fixed-point number with a scaling factor of 1e18 and we want to change it to a scaling factor of 1e27.
+
+To do so, we simply multiply that number by 1e9. 1e9 is the ratio between the two scales -- it was computed as 1e27 / 1e18
+
+Note that no information is lost since we effectively just add zeros after the decimal. However, we must be sure the multiplication will not overflow.
+========================================================================================
+
+Question 1
+If we want to convert a fixed-point number with a scaling factor of 1e6 to a scaling factor of 1e18, what do we need to multiply it by?
+answer-1e12
+
+
+
+Question 2
+If we want to convert a fixed-point number with a scaling factor of 1e8 to a scaling factor of 1e10, what do we need to multiply it by?
+answer-1e2
+
+
+
+
+Question 3
+If we want to convert a fixed-point number with a scaling factor of 1e15 to a scaling factor of 1e18, what do we need to multiply it by?
+answer- 1000
+
+
+
+
+
+
+Question 4
+If we want to convert a fixed-point number with a scaling factor of 1e8 to a scaling factor of 1e15, what do we need to multiply it by?
+answer-1e7
+
+
+
+
+
+
+
+
+Question 5
+If we want to convert a fixed-point number with a scaling factor of 1e8 to a scaling factor of 1e8, what do we need to multiply it by?
+answer-1

@@ -1,0 +1,78 @@
+====================================================================================
+Multiplying fixed-point numbers with integers
+====================================================================================
+Description
+Multiplying Fixed-point Numbers with Integers
+When multiplying a fixed-point number by an integer to produce a fixed-point number with the same scaling factor, we simply multiply the stored value by that integer.
+
+Recall that for a fixed-point number: RepresentedValue = StoredValue / ScalingFactor
+
+The Formula
+NewStoredValue = StoredValue * Integer
+
+The result is a fixed-point number with the same scaling factor as the input.
+
+The represented value after multiplication is: NewRepresentedValue = (StoredValue * Integer) / ScalingFactor
+
+This is equivalent to: NewRepresentedValue = RepresentedValue * Integer
+
+Examples
+Example 1: Fixed-point number x has a stored value of 1500000000000000000 with a scaling factor of 1e18. What is the stored value after multiplying by the integer 3?
+
+Answer: 4500000000000000000
+
+This is computed as 1500000000000000000 * 3 = 4500000000000000000
+
+The represented value was 1.5, and after multiplication by 3, it becomes 4.5. We can verify: 4500000000000000000 / 1e18 = 4.5
+
+Example 2: Fixed-point number x has a stored value of 2500 with a scaling factor of 1000. What is the stored value after multiplying by the integer 8?
+
+Answer: 20000
+
+This is computed as 2500 * 8 = 20000 The represented value was 2.5, and after multiplication by 8, it becomes 20.
+
+Important Notes
+IMPORTANT: When multiplying a fixed-point number by an integer, we do NOT divide by the scaling factor again. That's only necessary when multiplying two fixed-point numbers together.
+
+Watch for overflow: When multiplying large fixed-point numbers by integers, the result can easily overflow the uint size..
+====================================================================================
+
+
+Question 1
+Fixed-point number `x` has a represented value of 10 with a scaling factor of 100. What is the stored value after multiplying by the integer 5?
+answer-5000
+
+
+
+
+
+
+
+Question 2
+Fixed-point number `x` has a represented value of 0.75 with a scaling factor of 1e18. What is the stored value after multiplying by the integer 2?
+answer -  1500000000000000000
+
+
+
+
+Question 3
+Fixed-point number `x` has a represented value of 0.333333 with a scaling factor of 1e6. What is the stored value after multiplying by the integer 12?
+answer- 333333 * 12
+
+
+
+
+
+
+Question 4
+Fixed-point number `x` has a represented value of 10000 with a scaling factor of 1e18. What is the stored value after multiplying by the integer 0?
+answer - 0 
+
+
+
+
+
+
+Question 5
+Fixed-point number `x` has a represented value of 0.987654321 with a scaling factor of 1e9. What is the stored value after multiplying by the integer 7?
+answer- 987654321 * 7 

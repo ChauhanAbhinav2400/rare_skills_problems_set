@@ -16,27 +16,32 @@ contract AddLiquid {
     function addLiquidity(address usdc, address weth, address pool, uint256 usdcReserve, uint256 wethReserve) public {
         IUniswapV2Pair pair = IUniswapV2Pair(pool);
 
-        // your code start here
-        uint256 usdcbalance = IERC20(usdc).balanceOf(address(this));
-        uint256 wethbalance = IERC20(weth).balanceOf(address(this));
+         uint256 usdcBalance = IERC20(usdc).balanceOf(address(this));
+        uint256 wethBalance = IERC20(weth).balanceOf(address(this));
 
-        uint256 usdcAmount;
-        uint256 wethAmount;
+        // Step 2: Calculate optimal WETH based on full USDC (limiting side)
+        uint256 amountWethOptimal = (usdcBalance * wethReserve) / usdcReserve;
 
-        uint256 wethAmountRequired = (usdcbalance * wethReserve) / usdcReserve;
+        uint256 amountUsdc;
+        uint256 amountWeth;
 
+        if (amountWethOptimal <= wethBalance) {
+            // USDC is limiting
+            amountUsdc = usdcBalance;
+            amountWeth = amountWethOptimal;
+        } else {
+            // WETH is limiting (fallback case)
+            uint256 amountUsdcOptimal = (wethBalance * usdcReserve) / wethReserve;
 
-        if(wethbalance <= wethAmountRequired ){
-            wethAmount = wethAmountRequired;
-            usdcAmount = usdcbalance;
-        }else{
-            usdcAmount = (wethbalance * usdcReserve) / wethReserve;
-            wethAmount = wethbalance;
+            amountUsdc = amountUsdcOptimal;
+            amountWeth = wethBalance;
         }
 
-        IERC20(usdc).transfer(pool, usdcAmount);
-        IERC20(weth).transfer(pool, wethAmount);
+        // Step 3: Transfer tokens to the pair
+        IERC20(usdc).transfer(pool, amountUsdc);
+        IERC20(weth).transfer(pool, amountWeth);
 
+        // Step 4: Mint LP tokens to msg.sender
         pair.mint(msg.sender);
 
         // see available functions here: https://github.com/Uniswap/v2-core/blob/master/contracts/interfaces/IUniswapV2Pair.sol

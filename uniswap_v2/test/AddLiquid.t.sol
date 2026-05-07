@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Test, console2} from "forge-std/Test.sol";
 import {AddLiquid} from "../src/AddLiquid.sol";
-import "../src/interfaces/IUniswapV2Pair.sol";
+import {IUniswapV2Pair} from "../src/interfaces/IUniswapV2Pair.sol";
 
 contract AddLiquidTest is Test {
     AddLiquid public addLiquid;
@@ -11,15 +11,14 @@ contract AddLiquidTest is Test {
     address public usdc = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
     address public pool = 0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc;
 
-    function setUp() public {
-        addLiquid = new AddLiquid();
+   function setUp() public {
+    vm.createSelectFork(vm.envString("MAINNET_RPC_URL"));
 
-        // transfers 1 WETH to addLiquid contract
-        deal(weth, address(addLiquid), 1 ether);
+    addLiquid = new AddLiquid();
 
-        // transfers 1000 USDC to addLiquid contract
-        deal(usdc, address(addLiquid), 1000e6);
-    }
+    deal(weth, address(addLiquid), 1 ether);
+    deal(usdc, address(addLiquid), 1000e6);
+}
 
     function test_AddLiquidity() public {
         (uint256 reserve0, uint256 reserve1,) = IUniswapV2Pair(pool).getReserves();

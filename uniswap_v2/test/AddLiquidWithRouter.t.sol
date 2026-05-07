@@ -1,6 +1,6 @@
 pragma solidity ^0.8.13;
 
-import "./interfaces/IUniswapV2Pair.sol";
+import {IUniswapV2Pair} from "../src/interfaces/IUniswapV2Pair.sol";
 
 contract AddLiquidWithRouter {
     /**

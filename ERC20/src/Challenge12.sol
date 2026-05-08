@@ -16,98 +16,98 @@
                                                                                
 pragma solidity >=0.8.0;
 
-/// @notice Modern and gas efficient ERC20
-// contract Challenge12 {
 
-//     event Transfer(address indexed from, address indexed to, uint256 amount);
+contract Challenge12 {
 
-//     event Approval(address indexed owner, address indexed spender, uint256 amount);
+    event Transfer(address indexed from, address indexed to, uint256 amount);
 
-//     string public name;
+    event Approval(address indexed owner, address indexed spender, uint256 amount);
 
-//     string public symbol;
+    string public name;
 
-//     uint8 public immutable decimals;
+    string public symbol;
 
-//     uint256 public totalSupply;
+    uint8 public immutable decimals;
 
-//     mapping(address => uint256) public balanceOf;
+    uint256 public totalSupply;
 
-//     mapping(address => mapping(address => uint256)) public allowance;
+    mapping(address => uint256) public balanceOf;
 
-//     address public owner;
+    mapping(address => mapping(address => uint256)) public allowance;
 
-//     modifier onlyOwner() {
-//         require(msg.sender == owner, "Challenge12: caller is not owner");
-//         _;
-//     }
+    address public owner;
 
-//     constructor(string memory _name, string memory _symbol, uint8 _decimals) {
-//         name = _name;
-//         symbol = _symbol;
-//         decimals = _decimals;
-//         owner = msg.sender;
-//     }
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Challenge12: caller is not owner");
+        _;
+    }
 
-//     function approve(address spender, uint256 amount) public virtual returns (bool) {
-//         allowance[msg.sender][spender] = amount;
+    constructor(string memory _name, string memory _symbol, uint8 _decimals) {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
+        owner = msg.sender;
+    }
 
-//         emit Approval(msg.sender, spender, amount);
+    function approve(address spender, uint256 amount) public virtual returns (bool) {
+        allowance[msg.sender][spender] = amount;
 
-//         return true;
-//     }
+        emit Approval(msg.sender, spender, amount);
 
-//     function gift(address to, uint256 amount) public onlyOwner {
-//         balanceOf[to] += amount;
+        return true;
+    }
 
-//         emit Transfer(address(0), to, amount);
-//     }
+    function gift(address to, uint256 amount) public onlyOwner {
+        balanceOf[to] += amount;
 
-//     function transfer(address to, uint256 amount) public virtual returns (bool) {
-//         balanceOf[msg.sender] -= amount;
+        emit Transfer(address(0), to, amount);
+    }
 
-//         unchecked {
-//             balanceOf[to] += amount;
-//         }
+    function transfer(address to, uint256 amount) public virtual returns (bool) {
+        balanceOf[msg.sender] -= amount;
 
-//         emit Transfer(msg.sender, to, amount);
+        unchecked {
+            balanceOf[to] += amount;
+        }
 
-//         return true;
-//     }
+        emit Transfer(msg.sender, to, amount);
 
-//     function transferFrom(address from, address to, uint256 amount) public virtual returns (bool) {
-//         uint256 allowed = allowance[from][msg.sender]; 
+        return true;
+    }
 
-//         if (allowed != type(uint256).max) allowance[from][msg.sender] = allowed - amount;
+    function transferFrom(address from, address to, uint256 amount) public virtual returns (bool) {
+        uint256 allowed = allowance[from][msg.sender]; 
 
-//         balanceOf[from] -= amount;
-//         balanceOf[to] += amount;
+        if (allowed != type(uint256).max) allowance[from][msg.sender] = allowed - amount;
 
-//         emit Transfer(from, to, amount);
+        balanceOf[from] -= amount;
+        balanceOf[to] += amount;
 
-//         return true;
-//     }
+        emit Transfer(from, to, amount);
 
-//     function _mint(address to, uint256 amount) internal virtual {
-//         totalSupply += amount;
+        return true;
+    }
 
-//         unchecked {
-//             balanceOf[to] += amount;
-//         }
+    function _mint(address to, uint256 amount) internal virtual {
+        totalSupply += amount;
 
-//         emit Transfer(address(0), to, amount);
-//     }
+        unchecked {
+            balanceOf[to] += amount;
+        }
 
-//     function _burn(address from, uint256 amount) internal virtual {
-//         balanceOf[from] -= amount;
+        emit Transfer(address(0), to, amount);
+    }
 
-//         unchecked {
-//             totalSupply -= amount;
-//         }
+    function _burn(address from, uint256 amount) internal virtual {
+        balanceOf[from] -= amount;
 
-//         emit Transfer(from, address(0), amount);
-//     }
-// }
+        unchecked {
+            totalSupply -= amount;
+        }
+
+        emit Transfer(from, address(0), amount);
+    }
+}
 
 //Bug================================================
 // The gift function effectively mints tokens without updating totalSupply, breaking the ERC20 supply invariant and acting as a hidden mint backdoor. Additionally, _burn lacks balance checks

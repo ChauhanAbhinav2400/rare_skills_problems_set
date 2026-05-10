@@ -31,3 +31,6 @@
 [submodule "uniswap_v2/lib/forge-std"]
 	path = uniswap_v2/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "FarmX/contracts/lib/forge-std"]
+	path = FarmX/contracts/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std

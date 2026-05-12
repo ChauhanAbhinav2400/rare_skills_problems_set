@@ -18,10 +18,17 @@ event Withdraw(address indexed user , uint256 amount);
 IERC20 public lpToken;
 IERC20 public rewardToken;
 
+struct UserInfo {
+    uint256 amount;
+    uint256 rewardDebt;
+}
+
 uint256 public totalStaked;
-mapping(address => uint256 ) public balance;
-mapping (address => uint40) public lastUpdatedTime;
-mapping (address => uint256 ) public pendingRewards;
+uint256 public rewardPerSecond;
+uint40 public lastRewardTime;
+uint256 public accRewardPerShare; 
+uint256 private constant WAD = 1e18;
+mapping(address => UserInfo) public userInfo;
 
 constructor(address _lpToken , address _rewardToken) {
     if(_lpToken == address(0) || _rewardToken == address(0)) revert InvalidAddress();
@@ -31,17 +38,21 @@ constructor(address _lpToken , address _rewardToken) {
 
 
 function deposit(uint256 amount) external {
-if (amount <= 0 ) revert ZeroAmount();
-lpToken.safeTransferFrom(msg.sender , address(this), amount);
-uint256 timeElasped = block.timestamp - lastUpdatedTime[msg.sender];
-if(timeElasped > 0 && balance[msg.sender] > 0){
-    uint256 rewards = balance[msg.sender] * timeElasped;
-    pendingRewards[msg.sender] += rewards;
-}
-balance[msg.sender] += amount;
-totalStaked += amount;
-lastUpdatedTime[msg.sender] = uint40(block.timestamp);
-emit Deposit(msg.sender, amount);
+    
+    if (amount == 0 ) revert ZeroAmount();
+    _updatePool();
+    UserInfo memory user = userInfo[msg.sender];
+    uint256 pendingRewards;
+    if(user.amount > 0 ){
+     pendingRewards = ((user.amount * accRewardPerShare ) / WAD) - user.rewardDebt;
+     rewardToken.mint(msg.sender,pendingRewards);
+    } 
+    lpToken.safeTransferFrom(msg.sender,address(this),amount);
+    user.amount += amount;
+    totalStaked += amount;
+    lastRewardTime = uint40(block.timestamp);
+
+   emit Deposit(msg.sender, amount);
 
 }
 
@@ -49,16 +60,25 @@ emit Deposit(msg.sender, amount);
 function withdraw(uint256 amount) external {
     if (amount <= 0 ) revert ZeroAmount();
     if (balance[msg.sender] < amount) revert InsufficientBalance();
-    uint256 timeElasped = block.timestamp - lastUpdatedTime[msg.sender];
-    if(timeElasped > 0 && balance[msg.sender] > 0){
-    uint256 rewards = balance[msg.sender] * timeElasped;
-    pendingRewards[msg.sender] += rewards;
-    }
-    balance[msg.sender] -= amount;
+   
     totalStaked -= amount;
-    lastUpdatedTime[msg.sender] = uint40(block.timestamp);
     lpToken.safeTransfer(msg.sender , amount);
     emit Withdraw(msg.sender, amount);
+}
+
+function _updatePool() internal {
+    if(block.timestamp <= lastRewardTime) {
+        return;
+    }
+    if(totalStaked == 0 ){
+        lastRewardTime = uint40(block.timestamp);
+        return;
+    }
+
+    uint256 timeElasped = block.timestamp - lastRewardTime;
+    uint256 reward = timeElasped * rewardPerSecond;
+    accRewardPerShare += reward * WAD / totalStaked;
+    lastRewardTime = uint40(block.timestamp);
 }
 
 

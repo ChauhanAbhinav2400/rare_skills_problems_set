@@ -38,11 +38,10 @@ contract NFTGiver {
         order = _order;
     }
 
-    function _supportsInterface(ERC165 target, bytes4 _interface)
-        public
-        view
-        returns (bool)
-    {
+    function _supportsInterface(
+        ERC165 target,
+        bytes4 _interface
+    ) public view returns (bool) {
         return target.supportsInterface{gas: GAS_LIMIT}(_interface);
     }
 

@@ -10,7 +10,6 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.
 contract Farm is ReentrancyGuard {
 
 using SafeERC20 for IERC20;
-using SafeERC20 for RewardToken;
 
 error ZeroAmount();
 error InvalidAddress();
@@ -45,7 +44,6 @@ constructor(address _lpToken , address _rewardToken) {
 
 function deposit(uint256 amount) external nonReentrant {
 
-
     _updatePool();
     UserInfo storage user = userInfo[msg.sender];
     uint256 pendingRewards;
@@ -61,7 +59,6 @@ function deposit(uint256 amount) external nonReentrant {
     user.amount += amount;
     totalStaked += amount;
     user.rewardDebt = (user.amount * accRewardPerShare) / WAD;
-
 
    emit Deposit(msg.sender, amount);
 

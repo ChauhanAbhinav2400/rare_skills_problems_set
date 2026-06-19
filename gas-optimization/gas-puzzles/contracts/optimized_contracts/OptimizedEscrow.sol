@@ -5,14 +5,14 @@ import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 
 contract CreateEscrowContract {}
 
-contract Escrow is ReentrancyGuard {
-    address public buyer;
-    address public seller;
+contract Escrow {
+    address public immutable buyer;
+    address public immutable seller;
     address public arbiter;
-    uint256 public expiration;
-    bool public arbiterUnlocked;
+    uint256 public immutable expiration;
     uint256 public depositDate;
     bool public alreadyDeposited;
+    bool public arbiterUnlocked;
 
     constructor(
         address _buyer,
@@ -23,7 +23,7 @@ contract Escrow is ReentrancyGuard {
         buyer = _buyer;
         seller = _seller;
         arbiter = _arbiter;
-        expiration = expiration;
+        expiration = _expiration;
     }
 
     modifier onlyArbiter() {
@@ -31,7 +31,7 @@ contract Escrow is ReentrancyGuard {
         _;
     }
 
-    function buyerDeposit() public payable nonReentrant {
+    function buyerDeposit() public payable {
         require(
             msg.sender == buyer,
             'you are not the buyer, you cannot deposit'

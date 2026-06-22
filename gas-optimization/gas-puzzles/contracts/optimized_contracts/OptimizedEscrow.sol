@@ -10,7 +10,7 @@ contract Escrow {
     address public immutable seller;
     address public arbiter;
     uint256 public immutable expiration;
-    uint256 public depositDate;
+    uint64 public depositDate;
     bool public alreadyDeposited;
     bool public arbiterUnlocked;
 
@@ -37,7 +37,7 @@ contract Escrow {
             'you are not the buyer, you cannot deposit'
         );
         require(alreadyDeposited == false, 'you cannot deposit twice');
-        depositDate = block.timestamp;
+        depositDate = uint64(block.timestamp);
     }
 
     function arbiterRefund() public onlyArbiter {

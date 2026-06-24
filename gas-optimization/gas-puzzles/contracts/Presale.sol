@@ -6,7 +6,7 @@ contract Presale {
     bytes32 merkleRoot;
 
     function mint() public {
-        require(inTheMerkleTree(msg.sender), "not allowed");
+        require(inTheMerkleTree(msg.sender), 'not allowed');
         setAlreadyMinted();
 
         // mint them a token
